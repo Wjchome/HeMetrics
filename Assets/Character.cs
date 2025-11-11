@@ -56,7 +56,7 @@ public class Character : MonoBehaviour
                     {
                         //测试
                         currentState = CharacterState.Attack;
-                        return; 
+                        return;  
                     }
 
                     if (lastMoveFrame + moveIntervalFrame < Core.NetMgr.serverTimer && movePath[1].characterOn == null)
