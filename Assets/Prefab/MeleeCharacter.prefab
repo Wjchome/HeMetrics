@@ -469,4 +469,5 @@ MonoBehaviour:
   defence: 0
   moveInterval: 1
   attackInterval: 1
+  attackWindup: 0.5
   isDead: 0

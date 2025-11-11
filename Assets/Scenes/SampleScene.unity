@@ -146,7 +146,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 231926144}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: -1.4, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -177,7 +177,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 338097716}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9, y: -1, z: 0}
+  m_LocalPosition: {x: 10.3, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -313,8 +313,8 @@ Camera:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.254717, g: 0.254717, b: 0.254717, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -410,7 +410,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hexCellPrefab: {fileID: 5147451642609751108, guid: 84cdacbee7a454d80bc12e3a08981d6b, type: 3}
-  characterPrefab: {fileID: 9011227472810635352, guid: 9c4300644107141adbb28d58f4e0d3dc, type: 3}
   width: 8
   height: 8
   cellSize: 0.6
@@ -426,6 +425,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43ed0ccd9f434c728c11a5342a7e0f5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 64562614640928302, guid: e418a676f46a84f05ab5c260fec91953, type: 3}
+  meleeCharacterPrefab: {fileID: 3466633963478219371, guid: 9c4300644107141adbb28d58f4e0d3dc, type: 3}
+  rangedCharacterPrefab: {fileID: -719576399673955833, guid: 2f7b9d7f3843d4e00b51e31db62cd36c, type: 3}
 --- !u!114 &1173355345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,12 +444,10 @@ MonoBehaviour:
   endPoint: {fileID: 338097717}
   startPoint1: {fileID: 0}
   endPoint1: {fileID: 0}
-  standNum: 8
+  standNum: 12
   standCellPrefab: {fileID: 2781849520848420520, guid: 5acdbee1568284757aee6a83331ccd58, type: 3}
   myStandCells: []
   otherStandCells: []
-  characterpre: {fileID: 9011227472810635352, guid: 9c4300644107141adbb28d58f4e0d3dc, type: 3}
-  characterNum: 8
 --- !u!114 &1173355346
 MonoBehaviour:
   m_ObjectHideFlags: 0

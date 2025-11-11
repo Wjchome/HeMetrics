@@ -12,7 +12,7 @@ public class RangedCharacter : Character
 
         int dis = Core.HexMapMgr.GetHexDistance(currentCell as HexCell, nearestEnemy.currentCell as HexCell);
         lastState = currentState;
-        
+
         if (dis <= attackRange)
         {
             currentState = CharacterState.Attack;
@@ -57,10 +57,19 @@ public class RangedCharacter : Character
             if (lastAttackFrame + attackIntervalFrame < Core.NetMgr.serverTimer)
             {
                 lastAttackFrame = Core.NetMgr.serverTimer;
+                realAttackFrame = Core.NetMgr.serverTimer + attackWindupFrame;
 
+                Vector3 position = currentCell.transform.position;
+                transform.DOMove(position + 0.2f * (position - nearestEnemy.currentCell.transform.position).normalized,
+                        attackInterval / 3)
+                    .OnComplete(() => { transform.DOMove(position, attackInterval / 5); });
+            }
+
+            if (Core.NetMgr.serverTimer == realAttackFrame)
+            {
                 var bullet = Instantiate(Core.I.bulletPrefab, transform.position, Quaternion.identity);
                 Core.BulletMgr.AddBullet(bullet);
-                bullet.Init(attack,0.4f*dis,nearestEnemy);
+                bullet.Init(attack, 0.4f * dis, nearestEnemy);
             }
         }
     }

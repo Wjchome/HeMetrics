@@ -13,6 +13,8 @@ public class Bullet : MonoBehaviour
     private Character target;
 
     public bool isDead = false;
+    
+    public AnimationCurve curve;
 
     public void Init(int damage, float hitTime, Character target)
     {
@@ -29,6 +31,7 @@ public class Bullet : MonoBehaviour
         {
             hitTimer++;
             float rate = (float)hitTimer / hitFrame;
+            rate = curve.Evaluate(rate);
             transform.position = Vector3.Lerp(transform.position, target.transform.position, rate);
             if (rate >= 1)
             {

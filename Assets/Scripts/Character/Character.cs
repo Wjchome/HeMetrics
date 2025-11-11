@@ -25,13 +25,17 @@ public class Character : MonoBehaviour
     public int defence;
     public float moveInterval;
     public float attackInterval;
-
+    public float attackWindup;//攻击前摇
+    
     protected int moveIntervalFrame;
     protected long lastMoveFrame;
 
     protected int attackIntervalFrame;
     protected long lastAttackFrame;
 
+    protected int attackWindupFrame;
+    protected long realAttackFrame;
+    
     protected long lastChecktargetFrame = 0;
 
     protected List<HexCell> movePath = new List<HexCell>();
@@ -46,6 +50,9 @@ public class Character : MonoBehaviour
 
         attackIntervalFrame = (int)(attackInterval * Const.ServerFrame);
         lastAttackFrame = 0;
+
+        attackWindupFrame = (int)(attackWindup * Const.ServerFrame);
+        realAttackFrame = -1;
         HPUIShow();
     }
 
