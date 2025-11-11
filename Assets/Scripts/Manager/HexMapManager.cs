@@ -152,7 +152,7 @@ public class HexMapManager : MonoBehaviour
                 }
 
                 // 邻居已检查或不可通行（如果有障碍物逻辑，这里添加判断）
-                if (closedSet.Contains(neighbor)) // || !neighbor.isWalkable
+                if (closedSet.Contains(neighbor) || neighbor.characterOn != null) 
                     continue;
 
                 // 计算从起点到邻居的临时gCost（当前g + 1，假设相邻单元格代价为1）
@@ -228,29 +228,11 @@ public class HexMapManager : MonoBehaviour
         return path;
     }
 
-    public HexCell One, Two;
-    public int count = 0;
+
 
     public void Click(HexCell cell)
     {
-        count++;
-        if (count == 1)
-        {
-            One = cell;
-        }
-        else if (count == 2)
-        {
-            Two = cell;
-            count = 0;
-            var path = GetAstarPath(One, Two);
-
-            for (int i = 0; i < path.Count; i++)
-            {
-                var hexCell = path[i];
-                hexCell.GetComponent<Renderer>().material.color =
-                    new Color32(100, 255, 255, (byte)(i * (255f / path.Count)));
-            }
-        }
+        
     }
 }
 

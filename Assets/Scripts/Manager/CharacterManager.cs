@@ -8,6 +8,8 @@ public class CharacterManager
 
     public void UpdateFrame()
     {
+        if (Core.GameMgr.gameState != GameState.Fighting)
+            return;
         for (int i = 0; i < characters.Count; i++)
         {
             characters[i].UpdateFrame();
@@ -22,7 +24,7 @@ public class CharacterManager
         {
             if (character.isMine != character1.isMine)
             {
-                int dis = Core.HexMapMgr.GetHexDistance(character.currentCell, character1.currentCell);
+                int dis = Core.HexMapMgr.GetHexDistance(character.currentCell as HexCell, character1.currentCell as HexCell);
                 if (dis < nearestDistance)
                 {
                     nearestDistance = dis;

@@ -1,7 +1,6 @@
-namespace Manager
+public class UIManager
 {
-    public class UIManager
-    {
-        
-    }
+    
+    
 }
+

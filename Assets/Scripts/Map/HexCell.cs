@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 
-public class HexCell : MonoBehaviour
+public class HexCell : BaseCell
 {
     // 立方体坐标 (q, r, s)，满足约束：q + r + s = 0
     public int q, r, s;

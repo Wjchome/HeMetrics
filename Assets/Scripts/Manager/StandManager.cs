@@ -14,12 +14,19 @@ public class StandManager : MonoBehaviour
     public List<StandCell> myStandCells = new List<StandCell>();
     public List<StandCell> otherStandCells;
 
+    public Character characterpre;
+
     public void Init()
     {
         for (int i = 0; i < standNum; i++)
         {
             myStandCells.Add(Instantiate(standCellPrefab, Vector3.Lerp(
                 startPoint.position, endPoint.position, (float)i / standNum), Quaternion.identity, transform));
+            if (i == 0)
+            {
+                Core.CharacterMgr.characters.Add(Instantiate(characterpre, myStandCells[0].transform.position,
+                    Quaternion.identity));
+            }
         }
     }
 }

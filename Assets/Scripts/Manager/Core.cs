@@ -7,7 +7,11 @@ public class Core : MonoBehaviour
     public static CharacterManager CharacterMgr;
     public static HexMapManager HexMapMgr;
     public static NetManager NetMgr;
-    public static StandManager standMgr;
+    public static StandManager StandMgr;
+    public static UIManager UIMgr;
+    public static GameManager GameMgr;
+    public static CursorManager CursorMgr;
+
     private void Awake()
     {
         Application.targetFrameRate = 20;
@@ -16,14 +20,17 @@ public class Core : MonoBehaviour
         CharacterMgr = new CharacterManager();
         HexMapMgr = GetComponent<HexMapManager>();
         NetMgr = new NetManager();
-        standMgr = GetComponent<StandManager>();
+        StandMgr = GetComponent<StandManager>();
+        UIMgr = new UIManager();
+        GameMgr = new GameManager();
+        CursorMgr = GetComponent<CursorManager>();
     }
 
     private void Start()
     {
         NetMgr.Init();
         HexMapMgr.Init();
-        standMgr.Init();
+        StandMgr.Init();
     }
 
     /// <summary>
@@ -31,6 +38,11 @@ public class Core : MonoBehaviour
     /// </summary>
     public void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            GameMgr.gameState = (GameState)((int)(GameMgr.gameState + 1) % 2);
+        }
+
         UpdateFrame();
     }
 

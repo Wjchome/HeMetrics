@@ -11,7 +11,7 @@ public enum CharacterState
 
 public class Character : MonoBehaviour
 {
-    public HexCell currentCell;
+    public BaseCell currentCell;
     public bool isMine;
 
     public CharacterState currentState;
@@ -32,6 +32,7 @@ public class Character : MonoBehaviour
 
     private List<HexCell> movePath = new List<HexCell>();
 
+
     private void Start()
     {
         moveIntervalFrame = (int)(moveInterval * Const.ServerFrame);
@@ -44,29 +45,33 @@ public class Character : MonoBehaviour
 
     public void UpdateFrame()
     {
-        UpdateTarget();
-        if (currentState == CharacterState.Walk)
+        if (currentCell is HexCell)
         {
-            if (movePath != null && movePath.Count > 2)
+            UpdateTarget();
+            if (currentState == CharacterState.Walk)
             {
-                if (currentCell == movePath[movePath.Count - 2])
+                if (movePath != null && movePath.Count > 2)
                 {
-                    currentState = CharacterState.Attack;
-                    return;
-                }
-                if (lastMoveFrame + moveIntervalFrame < Core.NetMgr.serverTimer)
-                {
-                    lastMoveFrame = Core.NetMgr.serverTimer;
-                
-                    transform.DOMove(movePath[1].transform.position, moveInterval);
-                    currentCell  = movePath[1];
+                    if (currentCell == movePath[movePath.Count - 2])
+                    {
+                        currentState = CharacterState.Attack;
+                        return;
+                    }
+
+                    if (lastMoveFrame + moveIntervalFrame < Core.NetMgr.serverTimer)
+                    {
+                        lastMoveFrame = Core.NetMgr.serverTimer;
+
+                        transform.DOMove(movePath[1].transform.position, moveInterval);
+                        currentCell.characterOn = null;
+                        currentCell = movePath[1];
+                        currentCell.characterOn = this;
+                    }
                 }
             }
-
-           
-        }
-        else if (currentState == CharacterState.Attack)
-        {
+            else if (currentState == CharacterState.Attack)
+            {
+            }
         }
     }
 
@@ -75,14 +80,55 @@ public class Character : MonoBehaviour
         if (lastChecktargetFrame + Const.findTargetFrame > Core.NetMgr.serverTimer)
         {
             lastChecktargetFrame = Core.NetMgr.serverTimer;
-            
+
             Character nearestCharacter = Core.CharacterMgr.GetNearestCharacter(this);
             if (nearestCharacter == null)
             {
                 movePath = null;
                 return;
             }
-            movePath = Core.HexMapMgr.GetAstarPath(currentCell, nearestCharacter.currentCell);
+
+            movePath = Core.HexMapMgr.GetAstarPath(currentCell as HexCell, nearestCharacter.currentCell as HexCell);
         }
     }
+    
+    // 记录物体与鼠标的偏移量（避免点击时物体“跳位”）
+    private Vector3 dragOffset;
+    // 标记物体是否正在被拖动
+    private bool isDragging = false;
+
+    // 鼠标按下时触发（检测到碰撞体时）
+    void OnMouseDown()
+    {
+        if (Core.GameMgr.gameState != GameState.Display)
+        {
+            return;
+        }
+
+        dragOffset = (Vector2)transform.position - Core.CursorMgr.mousePosition;
+        // 标记开始拖动
+        isDragging = true;
+    }
+
+    // 鼠标拖动时触发（持续调用）
+    void OnMouseDrag()
+    {
+        if (Core.GameMgr.gameState != GameState.Display)
+        {
+            return;
+        }
+        
+        if (!isDragging) return; // 未按下时不执行
+        
+        transform.position = Core.CursorMgr.mousePosition + (Vector2)dragOffset;
+    }
+
+    // 鼠标抬起时触发
+    void OnMouseUp()
+    {
+        isDragging = false; // 结束拖动
+        
+    }
+    
+    
 }
