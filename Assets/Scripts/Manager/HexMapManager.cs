@@ -6,7 +6,6 @@ public class HexMapManager : MonoBehaviour
 {
     public HexCell hexCellPrefab;
 
-    public Character characterPrefab;
 
     // 使用字典存储，key 是立方体坐标的元组 (q, r, s)
     private Dictionary<(int, int, int), HexCell> hexCells;

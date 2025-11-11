@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 49.499, y: 0.6}
+  m_AnchoredPosition: {x: 0.5, y: 0.6}
   m_SizeDelta: {x: 0.62, y: 0.1}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &6882105477172861565
@@ -187,7 +187,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 49.501, y: 0.6}
+  m_AnchoredPosition: {x: 0.5, y: 0.6}
   m_SizeDelta: {x: 0.7, y: 0.1}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &717672427425445856
@@ -268,7 +268,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 2, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5691373086695679925
 Canvas:
@@ -342,10 +342,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6823138717503720971}
   - component: {fileID: 6021747192071528259}
-  - component: {fileID: 9011227472810635352}
   - component: {fileID: 1081016968874657247}
+  - component: {fileID: 3466633963478219371}
   m_Layer: 0
-  m_Name: Character
+  m_Name: MeleeCharacter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -419,29 +419,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &9011227472810635352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7673568599136492352}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8d4446626c94436a90ec9ef5ab84b7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  midHP: {fileID: 1865453677265423298}
-  realHP: {fileID: 2564432118992306729}
-  currentCell: {fileID: 0}
-  isMine: 0
-  currentState: 0
-  MaxHP: 10
-  HP: 10
-  attack: 1
-  defence: 0
-  moveInterval: 1
-  attackInterval: 1
 --- !u!61 &1081016968874657247
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -468,3 +445,28 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &3466633963478219371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7673568599136492352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bbeb935a73614e24b7847350b65cac3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  midHP: {fileID: 1865453677265423298}
+  realHP: {fileID: 2564432118992306729}
+  currentCell: {fileID: 0}
+  isMine: 0
+  lastState: 0
+  currentState: 0
+  MaxHP: 10
+  HP: 10
+  attack: 1
+  defence: 0
+  moveInterval: 1
+  attackInterval: 1
+  isDead: 0

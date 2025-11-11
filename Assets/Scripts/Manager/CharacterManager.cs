@@ -16,6 +16,15 @@ public class CharacterManager
         {
             battleCharacters[i].UpdateFrame();
         }
+        
+        for (int i = battleCharacters.Count - 1; i >= 0; i--)
+        {
+            if (battleCharacters[i].isDead)
+            {
+                battleCharacters[i].LogicDead();
+                battleCharacters.RemoveAt(i); // 用 RemoveAt 更高效（无需查找元素）
+            }
+        }
     }
 
     public Character GetNearestCharacter(Character character)

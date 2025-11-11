@@ -12,6 +12,11 @@ public class Core : MonoBehaviour
     public static GameManager GameMgr;
     public static CursorManager CursorMgr;
     public static Object2DClickHandler RayCastHandler;
+    public static BulletManager BulletMgr;
+    
+    public Bullet bulletPrefab;
+    public MeleeCharacter meleeCharacterPrefab;
+    public RangedCharacter rangedCharacterPrefab;
     private void Awake()
     {
         Application.targetFrameRate = 20;
@@ -25,6 +30,7 @@ public class Core : MonoBehaviour
         GameMgr = new GameManager();
         CursorMgr = GetComponent<CursorManager>();
         RayCastHandler = new Object2DClickHandler();
+        BulletMgr = new BulletManager();
     }
 
     private void Start()
@@ -54,6 +60,7 @@ public class Core : MonoBehaviour
     private void UpdateFrame()
     {
         NetMgr.UpdateFrame();
+        BulletMgr.UpdateFrame();
         CharacterMgr.UpdateFrame();
     }
 }
