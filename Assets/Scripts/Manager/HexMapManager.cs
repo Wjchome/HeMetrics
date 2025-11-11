@@ -30,10 +30,8 @@ public class HexMapManager : MonoBehaviour
                     transform);
                 hexCell.Init(q, r, s);
                 hexCells[(q, r, s)] = hexCell;
-                
             }
         }
-        
     }
 
     /// <summary>
@@ -111,7 +109,7 @@ public class HexMapManager : MonoBehaviour
         return hexCells.GetValueOrDefault(key);
     }
 
-    public List<HexCell> GetAstarPath(HexCell start, HexCell target)
+    public List<HexCell> GetAstarPath(HexCell start, HexCell target, List<Character> ignoreCharacters)
     {
         List<HexCell> openSet = new List<HexCell>(); // 待检查的节点
         HashSet<HexCell> closedSet = new HashSet<HexCell>(); // 已检查的节点
@@ -152,7 +150,8 @@ public class HexMapManager : MonoBehaviour
                 }
 
                 // 邻居已检查或不可通行（如果有障碍物逻辑，这里添加判断）
-                if (closedSet.Contains(neighbor) || neighbor.characterOn != null) 
+                if (closedSet.Contains(neighbor) ||
+                    (neighbor.characterOn != null && !ignoreCharacters.Contains(neighbor.characterOn)))
                     continue;
 
                 // 计算从起点到邻居的临时gCost（当前g + 1，假设相邻单元格代价为1）
@@ -226,13 +225,6 @@ public class HexMapManager : MonoBehaviour
         path.Reverse();
 
         return path;
-    }
-
-
-
-    public void Click(HexCell cell)
-    {
-        
     }
 }
 

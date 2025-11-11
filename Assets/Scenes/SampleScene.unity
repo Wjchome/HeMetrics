@@ -289,7 +289,6 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
-  - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -331,7 +330,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -356,28 +355,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.28, y: 3.61, z: -10}
+  m_LocalPosition: {x: 3.13, y: 2.96, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &963194229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9724a84e3b13423bb30d380ef16b2eea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!1 &1173355340
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,6 +374,7 @@ GameObject:
   - component: {fileID: 1173355344}
   - component: {fileID: 1173355343}
   - component: {fileID: 1173355345}
+  - component: {fileID: 1173355346}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -429,9 +414,6 @@ MonoBehaviour:
   width: 8
   height: 8
   cellSize: 0.6
-  One: {fileID: 0}
-  Two: {fileID: 0}
-  count: 0
 --- !u!114 &1173355344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -464,3 +446,19 @@ MonoBehaviour:
   standCellPrefab: {fileID: 2781849520848420520, guid: 5acdbee1568284757aee6a83331ccd58, type: 3}
   myStandCells: []
   otherStandCells: []
+  characterpre: {fileID: 9011227472810635352, guid: 9c4300644107141adbb28d58f4e0d3dc, type: 3}
+  characterNum: 8
+--- !u!114 &1173355346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173355340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b2380b5f49b4ed1a92527bc9658bdd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mousePosition: {x: 0, y: 0}
+  cam: {fileID: 963194227}

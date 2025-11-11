@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 3303978668773313907}
   - component: {fileID: 5147451642609751108}
   - component: {fileID: -5487125733250938492}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hexagon Pointed-Top
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,8 +98,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44059c2fba6d40b3a5b75c22ce86551e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  logicX: 0
-  logicY: 0
+  characterOn: {fileID: 0}
+  q: 0
+  r: 0
+  s: 0
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!60 &-5487125733250938492
 PolygonCollider2D:
   m_ObjectHideFlags: 0

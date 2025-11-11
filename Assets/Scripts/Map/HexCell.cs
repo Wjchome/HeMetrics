@@ -25,31 +25,5 @@ public class HexCell : BaseCell
         this.s = s;
     }
 
-    public void OnMouseEnter()
-    {
-        GetComponent<Renderer>().material.color = Color.green;
-        for (int i = 0; i < 6; i++)
-        {
-            var q = Core.HexMapMgr.GetCell(this, (HexDirection)i);
-            if (q != null)
-                q.GetComponent<Renderer>().material.color = new Color32(255, 255, 255, 122);
-        }
-    }
-
-    public void OnMouseExit()
-    {
-        gameObject.GetComponent<Renderer>().material.color = Color.white;
-        for (int i = 0; i < 6; i++)
-        {
-            var q = Core.HexMapMgr.GetCell(this, (HexDirection)i);
-            if (q != null)
-
-                q.GetComponent<Renderer>().material.color = Color.white;
-        }
-    }
-
-    public void OnMouseDown()
-    {
-        Core.HexMapMgr.Click(this);
-    }
+    
 }

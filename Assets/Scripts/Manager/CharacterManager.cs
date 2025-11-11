@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class CharacterManager
 {
-    public List<Character> characters= new List<Character>();
+    private List<Character> characters= new List<Character>();
+    private List<Character> battleCharacters= new List<Character>();
+    private List<Character> standCharacters= new List<Character>();
 
     public void UpdateFrame()
     {
         if (Core.GameMgr.gameState != GameState.Fighting)
             return;
-        for (int i = 0; i < characters.Count; i++)
+        for (int i = 0; i < battleCharacters.Count; i++)
         {
-            characters[i].UpdateFrame();
+            battleCharacters[i].UpdateFrame();
         }
     }
 
@@ -20,7 +22,7 @@ public class CharacterManager
     {
         Character nearestCharacter = null;
         int nearestDistance = int.MaxValue;
-        foreach (Character character1 in characters)
+        foreach (Character character1 in battleCharacters)
         {
             if (character.isMine != character1.isMine)
             {
@@ -34,5 +36,38 @@ public class CharacterManager
         }
 
         return nearestCharacter;
+    }
+
+    public void AddStandCharacter(Character character)
+    {
+        standCharacters.Add(character);
+    }
+
+    public void RemoveStandCharacter(Character character)
+    {
+        standCharacters.Remove(character);
+    }
+    public void AddBattleCharacter(Character character)
+    {
+        battleCharacters.Add(character);
+    }
+
+    public void RemoveBattleCharacter(Character character)
+    {
+        battleCharacters.Remove(character);
+    }
+
+    public void ChangeCharacter(Character character,bool isHex)
+    {
+        if (isHex)
+        {
+            battleCharacters.Add(character);
+            standCharacters.Remove(character);
+        }
+        else
+        {
+            battleCharacters.Remove(character);
+            standCharacters.Add(character);
+        }
     }
 }

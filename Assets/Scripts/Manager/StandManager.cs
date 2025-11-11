@@ -16,16 +16,25 @@ public class StandManager : MonoBehaviour
 
     public Character characterpre;
 
+    public int characterNum = 3;
+
     public void Init()
     {
         for (int i = 0; i < standNum; i++)
         {
             myStandCells.Add(Instantiate(standCellPrefab, Vector3.Lerp(
                 startPoint.position, endPoint.position, (float)i / standNum), Quaternion.identity, transform));
-            if (i == 0)
+            if (i < characterNum)
             {
-                Core.CharacterMgr.characters.Add(Instantiate(characterpre, myStandCells[0].transform.position,
-                    Quaternion.identity));
+                var character = Instantiate(characterpre, myStandCells[i].transform.position,
+                    Quaternion.identity);
+
+                Core.CharacterMgr.AddStandCharacter(character);
+                character.currentCell = myStandCells[i];
+                myStandCells[i].characterOn = character;
+                character.isMine = i % 2 == 0;
+                if (character.isMine)
+                    character.GetComponent<Renderer>().material.color = Color.cyan;
             }
         }
     }

@@ -11,7 +11,7 @@ public class Core : MonoBehaviour
     public static UIManager UIMgr;
     public static GameManager GameMgr;
     public static CursorManager CursorMgr;
-
+    public static Object2DClickHandler RayCastHandler;
     private void Awake()
     {
         Application.targetFrameRate = 20;
@@ -24,6 +24,7 @@ public class Core : MonoBehaviour
         UIMgr = new UIManager();
         GameMgr = new GameManager();
         CursorMgr = GetComponent<CursorManager>();
+        RayCastHandler = new Object2DClickHandler();
     }
 
     private void Start()
@@ -41,6 +42,7 @@ public class Core : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             GameMgr.gameState = (GameState)((int)(GameMgr.gameState + 1) % 2);
+            Debug.Log("GameMgr.gameState = " + GameMgr.gameState);
         }
 
         UpdateFrame();
