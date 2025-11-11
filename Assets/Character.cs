@@ -11,6 +11,9 @@ public enum CharacterState
 
 public class Character : MonoBehaviour
 {
+    public RectTransform midHP;
+    public RectTransform realHP;
+    
     public BaseCell currentCell;
     public bool isMine;
 
@@ -40,6 +43,8 @@ public class Character : MonoBehaviour
 
         attackIntervalFrame = (int)(attackInterval * Const.ServerFrame);
         lastAttackFrame = 0;
+        HPUIShow();
+        
     }
 
 
@@ -50,51 +55,48 @@ public class Character : MonoBehaviour
             UpdateTarget();
             if (currentState == CharacterState.Walk)
             {
-                if (movePath != null && movePath.Count > 2)
+                if (movePath != null)
                 {
-                    if (currentCell == movePath[movePath.Count - 2])
+                    if (movePath.Count > 2)
                     {
-                        //测试
-                        currentState = CharacterState.Attack;
-                        return;  
+                        if (lastMoveFrame + moveIntervalFrame < Core.NetMgr.serverTimer &&
+                            movePath[1].characterOn == null)
+                        {
+                            lastMoveFrame = Core.NetMgr.serverTimer;
+
+                            transform.DOMove(movePath[1].transform.position, moveInterval);
+                            currentCell.characterOn = null;
+                            currentCell = movePath[1];
+                            currentCell.characterOn = this;
+                        }
                     }
-
-                    if (lastMoveFrame + moveIntervalFrame < Core.NetMgr.serverTimer && movePath[1].characterOn == null)
+                    else
                     {
-                        lastMoveFrame = Core.NetMgr.serverTimer;
-
-                        transform.DOMove(movePath[1].transform.position, moveInterval);
-                        currentCell.characterOn = null;
-                        currentCell = movePath[1];
-                        currentCell.characterOn = this;
+                        currentState = CharacterState.Attack;
+                        lastAttackFrame = Core.NetMgr.serverTimer;
                     }
                 }
             }
             else if (currentState == CharacterState.Attack)
             {
-                if (movePath != null && movePath.Count > 2)
+                if (lastAttackFrame + attackIntervalFrame < Core.NetMgr.serverTimer)
                 {
-                    if (nearestEnemy != null && movePath[movePath.Count - 1].characterOn == nearestEnemy)
+                    lastAttackFrame = Core.NetMgr.serverTimer;
+
+                    if (nearestEnemy != null &&
+                        Core.HexMapMgr.GetHexDistance(nearestEnemy.currentCell as HexCell, currentCell as HexCell) == 1)
                     {
-                        if (lastAttackFrame + attackIntervalFrame < Core.NetMgr.serverTimer)
-                        {
-                            Attack();
-                            Vector2 position = transform.position;
-                            transform.DOMove(movePath[1].transform.position, attackInterval / 3)
-                                .OnComplete(() =>
-                                {
-                                    transform.DOMove(position, attackInterval / 3);
-                                });
-                        }
+                        Attack();
+                        Vector2 position = currentCell.transform.position;
+                        transform.DOMove(Vector2.Lerp(position, nearestEnemy.currentCell.transform.position, 0.5f),
+                                attackInterval / 3)
+                            .OnComplete(() => { transform.DOMove(position, attackInterval / 3); });
                     }
+
                     else
                     {
                         currentState = CharacterState.Walk;
                     }
-                }
-                else
-                {
-                    currentState = CharacterState.Walk;
                 }
             }
         }
@@ -127,5 +129,15 @@ public class Character : MonoBehaviour
     {
         damage = Mathf.Clamp(damage - defence, 0, damage);
         HP = Mathf.Clamp(HP - damage, 0, HP);
+
+        HPUIShow();
+    }
+
+
+    public void HPUIShow()
+    {
+        float rate = (float)HP / MaxHP;
+        realHP.sizeDelta = new Vector2(rate, realHP.sizeDelta.y);
+        midHP.DOSizeDelta(new Vector2(rate, realHP.sizeDelta.y), 0.5f);
     }
 }
