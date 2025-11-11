@@ -45,6 +45,9 @@ public class Core : MonoBehaviour
             Debug.Log("GameMgr.gameState = " + GameMgr.gameState);
         }
 
+        // 更新点击和拖动处理
+        RayCastHandler.Update();
+        
         UpdateFrame();
     }
 
