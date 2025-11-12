@@ -91,6 +91,8 @@ public class Character : MonoBehaviour
 
     public void Defend(int damage)
     {
+        if (isDead)
+            return;
         damage = Mathf.Clamp(damage - defence, 0, damage);
         HP = Mathf.Clamp(HP - damage, 0, HP);
 

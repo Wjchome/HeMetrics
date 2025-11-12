@@ -57,7 +57,7 @@ public class Bullet1 : MonoBehaviour
         }
 
         isDead = true;
-        transform.DOScale(0.01f, 0.5f).OnComplete(() => { Destroy(gameObject); });
+        transform.DOScale(0.01f, 0.3f).OnComplete(() => { Destroy(gameObject); }).SetLink(gameObject,LinkBehaviour.KillOnDestroy);
     }
 
     public void LogicDead()

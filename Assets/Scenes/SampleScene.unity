@@ -38,6 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.3069224, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -412,7 +413,7 @@ MonoBehaviour:
   hexCellPrefab: {fileID: 5147451642609751108, guid: 84cdacbee7a454d80bc12e3a08981d6b, type: 3}
   width: 8
   height: 8
-  cellSize: 0.6
+  cellSize: 0.55
 --- !u!114 &1173355344
 MonoBehaviour:
   m_ObjectHideFlags: 0

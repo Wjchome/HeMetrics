@@ -62,7 +62,7 @@ public class RangedCharacter : Character
                 Vector3 position = currentCell.transform.position;
                 transform.DOMove(position + 0.2f * (position - nearestEnemy.currentCell.transform.position).normalized,
                         attackInterval / 3)
-                    .OnComplete(() => { transform.DOMove(position, attackInterval / 5); });
+                    .OnComplete(() => { transform.DOMove(position, attackInterval / 5); }).SetLink(gameObject,LinkBehaviour.KillOnDestroy);
             }
 
             if (Core.NetMgr.serverTimer == realAttackFrame)
