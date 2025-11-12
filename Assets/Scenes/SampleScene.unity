@@ -426,8 +426,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 64562614640928302, guid: e418a676f46a84f05ab5c260fec91953, type: 3}
+  bullet1Prefab: {fileID: -2810218112968814156, guid: 5afa7f2f1b8224d5791a53ba635bda2c, type: 3}
   meleeCharacterPrefab: {fileID: 3466633963478219371, guid: 9c4300644107141adbb28d58f4e0d3dc, type: 3}
   rangedCharacterPrefab: {fileID: -719576399673955833, guid: 2f7b9d7f3843d4e00b51e31db62cd36c, type: 3}
+  shootCharacterPrefab: {fileID: -2338204921959243703, guid: 8688657c861be4aeab4d511b2b9f2882, type: 3}
 --- !u!114 &1173355345
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -24,17 +24,21 @@ public class StandManager : MonoBehaviour
                 startPoint.position, endPoint.position, (float)i / standNum), Quaternion.identity, transform));
 
             Character character = null;
-            if (i % 4 == 0||i % 4 == 1)
+            if (i % 3 == 0)
             {
                 character = Instantiate(Core.I.meleeCharacterPrefab, myStandCells[i].transform.position,
                     Quaternion.identity);
             }
-            else
+            else if (i % 3 == 1)
             {
                 character = Instantiate(Core.I.rangedCharacterPrefab, myStandCells[i].transform.position,
                     Quaternion.identity);
             }
-
+            else 
+            {
+                character = Instantiate(Core.I.shootCharacterPrefab, myStandCells[i].transform.position,
+                    Quaternion.identity);
+            }
 
             Core.CharacterMgr.AddStandCharacter(character);
             character.currentCell = myStandCells[i];
