@@ -1,0 +1,128 @@
+[
+  {
+    "id": 1,
+    "name": "直线炮台",
+    "HP": 10,
+    "manaCost": 2,
+    "invertal": 2,
+    "damage": 3,
+    "dps": "0.25*3"
+  },
+  {
+    "id": 2,
+    "name": "左右炮台",
+    "HP": 10,
+    "manaCost": 3,
+    "invertal": 2.5,
+    "damage": 3,
+    "dps": "0.267*3"
+  },
+  {
+    "id": 3,
+    "name": "斜前方炮台",
+    "HP": 10,
+    "manaCost": 3,
+    "invertal": 2.8,
+    "damage": 3,
+    "dps": "0.238*3"
+  },
+  {
+    "id": 4,
+    "name": "栅栏",
+    "HP": 20,
+    "manaCost": 2,
+    "invertal": 0,
+    "damage": 0,
+    "dps": "0"
+  },
+  {
+    "id": 5,
+    "name": "极速炮台",
+    "HP": 10,
+    "manaCost": 3,
+    "invertal": 1,
+    "damage": 3,
+    "dps": "0.333*3"
+  },
+  {
+    "id": 6,
+    "name": "散弹炮台",
+    "HP": 5,
+    "manaCost": 5,
+    "invertal": 5,
+    "damage": 3,
+    "dps": "0.2*3"
+  },
+  {
+    "id": 7,
+    "name": "前进士兵",
+    "HP": 15,
+    "manaCost": 2,
+    "invertal": 1.5,
+    "damage": 3,
+    "dps": "0.33*3"
+  },
+  {
+    "id": 8,
+    "name": "近战炮台",
+    "HP": 10,
+    "manaCost": 4,
+    "invertal": 3,
+    "damage": 3,
+    "dps": "0.25*3"
+  },
+  {
+    "id": 9,
+    "name": "炮兵",
+    "HP": 10,
+    "manaCost": 2,
+    "invertal": 1.5,
+    "damage": 3,
+    "dps": "0.333*3"
+  },
+  {
+    "id": 10,
+    "name": "长矛士兵",
+    "HP": 10,
+    "manaCost": 3,
+    "invertal": 2,
+    "damage": 3,
+    "dps": "0.333*3"
+  },
+  {
+    "id": 11,
+    "name": "法师炮塔",
+    "HP": 10,
+    "manaCost": 3,
+    "invertal": 2,
+    "damage": 3,
+    "dps": "0.16*3"
+  },
+  {
+    "id": 12,
+    "name": "推进士兵",
+    "HP": 10,
+    "manaCost": 2,
+    "invertal": 1,
+    "damage": 3,
+    "dps": "0.5*3"
+  },
+  {
+    "id": 13,
+    "name": "巡逻士兵",
+    "HP": 10,
+    "manaCost": 2,
+    "invertal": 1.5,
+    "damage": 3,
+    "dps": "0.33*3"
+  },
+  {
+    "id": 14,
+    "name": "骑兵",
+    "HP": 10,
+    "manaCost": 4,
+    "invertal": 3,
+    "damage": 3,
+    "dps": "0.08*3"
+  }
+]

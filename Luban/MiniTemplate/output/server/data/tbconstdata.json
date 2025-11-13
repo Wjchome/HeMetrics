@@ -1,0 +1,7 @@
+[
+  {
+    "manaMax": 10,
+    "manaRegenRate": 0.5,
+    "initialMana": 4
+  }
+]

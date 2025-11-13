@@ -10,7 +10,7 @@ public class MeleeCharacter : Character
 
         int dis = Core.HexMapMgr.GetHexDistance(currentCell as HexCell, nearestEnemy.currentCell as HexCell);
         lastState = currentState;
-        if (dis <= 1)
+        if (dis <= attackRange)
         {
             currentState = CharacterState.Attack;
         }

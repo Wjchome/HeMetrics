@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class ShootCharacter : Character
 {
-      public int attackRange;
 
     protected override void UpdateState()
     {

@@ -39,6 +39,8 @@ public class StandManager : MonoBehaviour
                 character = Instantiate(Core.I.shootCharacterPrefab, myStandCells[i].transform.position,
                     Quaternion.identity);
             }
+            
+            
 
             Core.CharacterMgr.AddStandCharacter(character);
             character.currentCell = myStandCells[i];

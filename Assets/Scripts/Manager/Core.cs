@@ -14,6 +14,7 @@ public class Core : MonoBehaviour
     public static Object2DClickHandler RayCastHandler;
     public static BulletManager BulletMgr;
     public static Bullet1Manager Bullet1Mgr;
+    public static LuBanDataManager dataMgr;
     
     public Bullet bulletPrefab;
     public Bullet1 bullet1Prefab;
@@ -25,6 +26,7 @@ public class Core : MonoBehaviour
         Application.targetFrameRate = 20;
 
         I = this;
+        dataMgr = new LuBanDataManager();
         CharacterMgr = new CharacterManager();
         HexMapMgr = GetComponent<HexMapManager>();
         NetMgr = new NetManager();
@@ -39,6 +41,7 @@ public class Core : MonoBehaviour
 
     private void Start()
     {
+        dataMgr.Init();
         NetMgr.Init();
         HexMapMgr.Init();
         StandMgr.Init();

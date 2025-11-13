@@ -1,0 +1,194 @@
+[
+  {
+    "id": 1,
+    "name": "角色1",
+    "desc": "角色1描述",
+    "MaxHP": 50,
+    "attack": 3,
+    "defend": 1,
+    "moveInterval": 1,
+    "attackInterval": 1,
+    "attackWindup": 0.5,
+    "attackRange": 1,
+    "bondList": [
+      0,
+      1
+    ]
+  },
+  {
+    "id": 2,
+    "name": "角色2",
+    "desc": "角色2描述",
+    "MaxHP": 50,
+    "attack": 3,
+    "defend": 1,
+    "moveInterval": 1,
+    "attackInterval": 1,
+    "attackWindup": 0.5,
+    "attackRange": 1,
+    "bondList": [
+      0,
+      2
+    ]
+  },
+  {
+    "id": 3,
+    "name": "角色3",
+    "desc": "角色3描述",
+    "MaxHP": 51,
+    "attack": 4,
+    "defend": 2,
+    "moveInterval": 2,
+    "attackInterval": 2,
+    "attackWindup": 1.5,
+    "attackRange": 2,
+    "bondList": [
+      0,
+      3
+    ]
+  },
+  {
+    "id": 4,
+    "name": "角色4",
+    "desc": "角色4描述",
+    "MaxHP": 52,
+    "attack": 5,
+    "defend": 3,
+    "moveInterval": 3,
+    "attackInterval": 3,
+    "attackWindup": 2.5,
+    "attackRange": 3,
+    "bondList": [
+      1,
+      2
+    ]
+  },
+  {
+    "id": 5,
+    "name": "角色5",
+    "desc": "角色5描述",
+    "MaxHP": 53,
+    "attack": 6,
+    "defend": 4,
+    "moveInterval": 4,
+    "attackInterval": 4,
+    "attackWindup": 3.5,
+    "attackRange": 4,
+    "bondList": [
+      1,
+      3
+    ]
+  },
+  {
+    "id": 6,
+    "name": "角色6",
+    "desc": "角色6描述",
+    "MaxHP": 54,
+    "attack": 7,
+    "defend": 5,
+    "moveInterval": 5,
+    "attackInterval": 5,
+    "attackWindup": 4.5,
+    "attackRange": 5,
+    "bondList": [
+      2,
+      3
+    ]
+  },
+  {
+    "id": 7,
+    "name": "角色7",
+    "desc": "角色7描述",
+    "MaxHP": 55,
+    "attack": 8,
+    "defend": 6,
+    "moveInterval": 6,
+    "attackInterval": 6,
+    "attackWindup": 5.5,
+    "attackRange": 6,
+    "bondList": [
+      0,
+      1,
+      2
+    ]
+  },
+  {
+    "id": 8,
+    "name": "角色8",
+    "desc": "角色8描述",
+    "MaxHP": 56,
+    "attack": 9,
+    "defend": 7,
+    "moveInterval": 7,
+    "attackInterval": 7,
+    "attackWindup": 6.5,
+    "attackRange": 7,
+    "bondList": [
+      0,
+      1,
+      3
+    ]
+  },
+  {
+    "id": 9,
+    "name": "角色9",
+    "desc": "角色9描述",
+    "MaxHP": 57,
+    "attack": 10,
+    "defend": 8,
+    "moveInterval": 8,
+    "attackInterval": 8,
+    "attackWindup": 7.5,
+    "attackRange": 8,
+    "bondList": [
+      0,
+      2,
+      3
+    ]
+  },
+  {
+    "id": 10,
+    "name": "角色10",
+    "desc": "角色10描述",
+    "MaxHP": 58,
+    "attack": 11,
+    "defend": 9,
+    "moveInterval": 9,
+    "attackInterval": 9,
+    "attackWindup": 8.5,
+    "attackRange": 9,
+    "bondList": [
+      0
+    ]
+  },
+  {
+    "id": 11,
+    "name": "角色11",
+    "desc": "角色11描述",
+    "MaxHP": 59,
+    "attack": 12,
+    "defend": 10,
+    "moveInterval": 10,
+    "attackInterval": 10,
+    "attackWindup": 9.5,
+    "attackRange": 10,
+    "bondList": [
+      0
+    ]
+  },
+  {
+    "id": 12,
+    "name": "角色12",
+    "desc": "角色12描述",
+    "MaxHP": 60,
+    "attack": 13,
+    "defend": 11,
+    "moveInterval": 11,
+    "attackInterval": 11,
+    "attackWindup": 10.5,
+    "attackRange": 11,
+    "bondList": [
+      0
+    ]
+  }
+]

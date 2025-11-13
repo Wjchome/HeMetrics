@@ -19,6 +19,7 @@ public class Character : MonoBehaviour
 
     public CharacterState lastState;
     public CharacterState currentState;
+    
     public int MaxHP;
     public int HP;
     public int attack;
@@ -26,6 +27,7 @@ public class Character : MonoBehaviour
     public float moveInterval;
     public float attackInterval;
     public float attackWindup;//攻击前摇
+    public int attackRange;
     
     protected int moveIntervalFrame;
     protected long lastMoveFrame;
@@ -45,6 +47,7 @@ public class Character : MonoBehaviour
 
     public void Start()
     {
+        
         moveIntervalFrame = (int)(moveInterval * Const.ServerFrame);
         lastMoveFrame = 0;
 
