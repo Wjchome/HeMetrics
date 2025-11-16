@@ -15,6 +15,8 @@ public class Core : MonoBehaviour
     public static BulletManager BulletMgr;
     public static Bullet1Manager Bullet1Mgr;
     public static LuBanDataManager dataMgr;
+    public static BondManager bondMgr;
+    public static LogicManager LogicMgr;
     
     public Bullet bulletPrefab;
     public Bullet1 bullet1Prefab;
@@ -31,12 +33,14 @@ public class Core : MonoBehaviour
         HexMapMgr = GetComponent<HexMapManager>();
         NetMgr = new NetManager();
         StandMgr = GetComponent<StandManager>();
-        UIMgr = new UIManager();
+        UIMgr =GetComponent<UIManager>();
         GameMgr = new GameManager();
         CursorMgr = GetComponent<CursorManager>();
         RayCastHandler = new Object2DClickHandler();
         BulletMgr = new BulletManager();
         Bullet1Mgr = new Bullet1Manager();
+        bondMgr = GetComponent<BondManager>();
+        LogicMgr = new LogicManager();
     }
 
     private void Start()
@@ -45,6 +49,9 @@ public class Core : MonoBehaviour
         NetMgr.Init();
         HexMapMgr.Init();
         StandMgr.Init();
+        bondMgr.Init();
+        UIMgr.Init();
+        LogicMgr.Init();
     }
 
     /// <summary>

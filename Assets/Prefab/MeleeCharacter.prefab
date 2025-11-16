@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2564432118992306729}
   - component: {fileID: 6882105477172861565}
   - component: {fileID: 7467892824823999714}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Back (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 2257208893505036400}
   - component: {fileID: 3123706516474340320}
   - component: {fileID: 6300352569975670837}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 1865453677265423298}
   - component: {fileID: 717672427425445856}
   - component: {fileID: 3983785617593935577}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Back (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -240,7 +240,7 @@ GameObject:
   - component: {fileID: 5691373086695679925}
   - component: {fileID: 2072587502637339503}
   - component: {fileID: 6123247183288003259}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -463,11 +463,14 @@ MonoBehaviour:
   isMine: 0
   lastState: 0
   currentState: 0
+  id: 0
   MaxHP: 10
-  HP: 10
   attack: 1
   defence: 0
   moveInterval: 1
   attackInterval: 1
   attackWindup: 0.5
+  attackRange: 0
+  bondTypes: 
+  HP: 10
   isDead: 0

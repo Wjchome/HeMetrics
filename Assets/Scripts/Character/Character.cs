@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum CharacterState
@@ -19,16 +21,22 @@ public class Character : MonoBehaviour
 
     public CharacterState lastState;
     public CharacterState currentState;
+
+    public int id;
+    public CharacterData data;
     
     public int MaxHP;
-    public int HP;
     public int attack;
     public int defence;
     public float moveInterval;
     public float attackInterval;
-    public float attackWindup;//攻击前摇
+    public float attackWindup; //攻击前摇
     public int attackRange;
     
+    public List<BondType> bondTypes;
+    
+    public int HP;
+
     protected int moveIntervalFrame;
     protected long lastMoveFrame;
 
@@ -37,7 +45,7 @@ public class Character : MonoBehaviour
 
     protected int attackWindupFrame;
     protected long realAttackFrame;
-    
+
     protected long lastChecktargetFrame = 0;
 
     protected List<HexCell> movePath = new List<HexCell>();
@@ -45,9 +53,21 @@ public class Character : MonoBehaviour
 
     public bool isDead = false;
 
-    public void Start()
+    public void Init(int id)
     {
+        this.id = id;
+        data = Core.dataMgr.CharacterData()[id];
+        MaxHP = data.MaxHP;
+        attack = data.Attack;
+        defence = data.Defend;
+        moveInterval = data.MoveInterval;
+        attackInterval = data.AttackInterval;
+        attackWindup = data.AttackWindup; //攻击前摇
+        attackRange = data.AttackRange;
+        bondTypes = data.BondList;
         
+        HP = MaxHP;
+
         moveIntervalFrame = (int)(moveInterval * Const.ServerFrame);
         lastMoveFrame = 0;
 
@@ -56,9 +76,16 @@ public class Character : MonoBehaviour
 
         attackWindupFrame = (int)(attackWindup * Const.ServerFrame);
         realAttackFrame = -1;
+        
+        
         HPUIShow();
     }
 
+    public void Init(CharacterData data)
+    {
+        this.data = data;
+        Init(data.Id);
+    }
 
     public void UpdateFrame()
     {
@@ -84,8 +111,10 @@ public class Character : MonoBehaviour
         }
     }
 
-    protected virtual void UpdateState(){}
-        
+    protected virtual void UpdateState()
+    {
+    }
+
 
     protected void Attack()
     {
@@ -130,4 +159,49 @@ public class Character : MonoBehaviour
     {
         currentCell.characterOn = null;
     }
+   // AttributeManager attributeManager;
 }
+
+
+// public class AttributeRecorde
+// { 
+//     // 属性来源
+//     public string sorce;
+//
+
+//     public double value;
+// }
+
+// public class AttributeManager
+// {
+//     public Dictionary<string, List<AttributeRecorde>> attributeDic;
+//
+//     public void Add(string name, string sorce, double value)
+//     {
+//         
+//     }
+//
+//     public double GetFinalValue(string name)
+//     {
+//         var attributeRecords = attributeDic[name];
+//         double finalValue = 0;
+//         for (int i = 0; i < attributeRecords.Count; i++)
+//         {
+//             switch (attributeRecords[i].sorce)
+//             {
+//                 
+//             }
+//             var record = attributeRecords[i];
+//             finalValue += record.value;
+//         }
+//         return finalValue;
+//     }
+//
+//     public void Remove(string name, string sorce)
+//     {
+//         
+//     }
+//     
+//     // "负面效果"
+//     public void RemoveByPrefix()
+// }

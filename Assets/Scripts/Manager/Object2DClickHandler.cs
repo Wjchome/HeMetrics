@@ -176,6 +176,7 @@ public class Object2DClickHandler
         if (wasHex != isHex)
         {
             Core.CharacterMgr.ChangeCharacter(character, isHex);
+            Core.bondMgr.ChangeCharacter(character, isHex);
         }
     }
 

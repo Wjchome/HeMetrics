@@ -18,6 +18,7 @@ public sealed partial class CharacterData : Luban.BeanBase
     {
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = _buf["id"]; }
         { if(!_buf["name"].IsString) { throw new SerializationException(); }  Name = _buf["name"]; }
+        { if(!_buf["characterType"].IsNumber) { throw new SerializationException(); }  CharacterType = (CharacterType)_buf["characterType"].AsInt; }
         { if(!_buf["desc"].IsString) { throw new SerializationException(); }  Desc = _buf["desc"]; }
         { if(!_buf["MaxHP"].IsNumber) { throw new SerializationException(); }  MaxHP = _buf["MaxHP"]; }
         { if(!_buf["attack"].IsNumber) { throw new SerializationException(); }  Attack = _buf["attack"]; }
@@ -36,6 +37,7 @@ public sealed partial class CharacterData : Luban.BeanBase
 
     public readonly int Id;
     public readonly string Name;
+    public readonly CharacterType CharacterType;
     public readonly string Desc;
     public readonly int MaxHP;
     public readonly int Attack;
@@ -58,6 +60,7 @@ public sealed partial class CharacterData : Luban.BeanBase
         return "{ "
         + "id:" + Id + ","
         + "name:" + Name + ","
+        + "characterType:" + CharacterType + ","
         + "desc:" + Desc + ","
         + "MaxHP:" + MaxHP + ","
         + "attack:" + Attack + ","

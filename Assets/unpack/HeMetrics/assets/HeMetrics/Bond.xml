@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="120,120">
+  <displayList>
+    <graph id="n0_oeri" name="n0" xy="8,9" size="100,100" type="rect"/>
+    <text id="n1_oeri" name="Txt_name" xy="44,16" size="18,34" fontSize="24" autoClearText="true" text="3"/>
+    <text id="n2_owxj" name="Txt_count" xy="45,64" size="18,34" fontSize="24" autoClearText="true" text="3"/>
+  </displayList>
+</component>

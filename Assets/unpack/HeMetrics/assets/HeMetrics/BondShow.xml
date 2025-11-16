@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="800,600">
+  <displayList>
+    <list id="n0_oeri" name="List" xy="15,51" size="200,510" overflow="scroll" defaultItem="ui://dbrqdbn1oeri1" autoClearItems="true">
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+    </list>
+  </displayList>
+</component>

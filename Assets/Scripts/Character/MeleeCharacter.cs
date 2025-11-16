@@ -34,7 +34,7 @@ public class MeleeCharacter : Character
                         movePath[1].characterOn == null)
                     {
                         lastMoveFrame = Core.NetMgr.serverTimer;
-
+                        //
                         transform.DOMove(movePath[1].transform.position, moveInterval).SetLink(gameObject,LinkBehaviour.KillOnDestroy);
                         currentCell.characterOn = null;
                         currentCell = movePath[1];
