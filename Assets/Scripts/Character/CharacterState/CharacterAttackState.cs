@@ -1,31 +1,33 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class CharacterAttackState : FSMState<Character>
 {
-    public int lock_timer;
+    private long _realAttackFrame; // 实际攻击判定帧（仅攻击状态内使用）
+    private long _exitAttackFrame; 
 
     public override void OnEnter()
     {
-        lock_timer = 0;
+        Owner.lastAttackFrame = Core.NetMgr.serverTimer;
+        _realAttackFrame = Core.NetMgr.serverTimer + Owner.attackWindupFrame;
+        _exitAttackFrame = Core.NetMgr.serverTimer + Owner.attackIntervalFrame;
+
+        Vector2 position = Owner.currentCell.transform.position;
+        Owner.transform.DOMove(Vector2.Lerp(position, Owner.nearestEnemy.currentCell.transform.position, 0.5f),
+                Owner.attackInterval / 3)
+            .OnComplete(() => { Owner.transform.DOMove(position, Owner.attackInterval / 3); });
     }
+
     public override void OnUpdate()
     {
-        Owner.UpdateTarget();
-        
-        if (Owner.lastAttackFrame + Owner.attackIntervalFrame < Core.NetMgr.serverTimer)
+        if (Core.NetMgr.serverTimer == _realAttackFrame)
         {
-            lastAttackFrame = Core.NetMgr.serverTimer;
-            realAttackFrame = Core.NetMgr.serverTimer + attackWindupFrame;
-                
-            Vector2 position = currentCell.transform.position;
-            transform.DOMove(Vector2.Lerp(position, nearestEnemy.currentCell.transform.position, 0.5f),
-                    attackInterval / 3)
-                .OnComplete(() => { transform.DOMove(position, attackInterval / 3); });
+            Owner.Attack();
         }
 
-        if (Core.NetMgr.serverTimer == realAttackFrame)
+        if (Core.NetMgr.serverTimer == _exitAttackFrame)
         {
-            Attack();
+            Owner.fsm.ChangeState(CharacterState.Idle);
         }
     }
 }

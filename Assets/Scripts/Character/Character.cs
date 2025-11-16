@@ -38,18 +38,18 @@ public class Character : MonoBehaviour
     
     public int HP;
 
-    protected int moveIntervalFrame;
-    protected long lastMoveFrame;
+    public int moveIntervalFrame;
+    public long lastMoveFrame;
 
-    protected int attackIntervalFrame;
-    protected long lastAttackFrame;
+    public int attackIntervalFrame;
+    public long lastAttackFrame;
 
-    protected int attackWindupFrame;
-    protected long realAttackFrame;
+    public int attackWindupFrame;
+    public long realAttackFrame;
 
-    protected long lastChecktargetFrame = 0;
+    public long lastChecktargetFrame = 0;
 
-    protected List<HexCell> movePath = new List<HexCell>();
+    public List<HexCell> movePath = new List<HexCell>();
     public Character nearestEnemy;
 
     public bool isDead = false;
@@ -123,7 +123,7 @@ public class Character : MonoBehaviour
     }
 
 
-    protected void Attack()
+    public void Attack()
     {
         nearestEnemy.Defend(attack);
     }
