@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <packageDescription id="dbrqdbn1">
   <resources>
-    <component id="nerj0" name="BondShow.xml" path="/" exported="true"/>
+    <component id="nerj0" name="BondShowWin.xml" path="/" exported="true"/>
     <component id="oeri1" name="Bond.xml" path="/"/>
   </resources>
   <publish name=""/>

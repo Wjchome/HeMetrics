@@ -335,7 +335,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 87
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -490,7 +490,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e0beb67740149df94531cfa92d58e45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bondUI: {fileID: 1839439256}
+  bondUIPackagePath: UI/HeMetrics
+  bondUIPackageName: HeMetrics
+  bondUIComponentName: BondShowWin
 --- !u!1 &1712598211
 GameObject:
   m_ObjectHideFlags: 0
@@ -610,10 +612,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   packageName: HeMetrics
-  componentName: BondShow
+  componentName: BondShowWin
   fitScreen: 0
   sortingOrder: 0
-  packagePath: Assets/FGUI/HeMetrics
+  packagePath: FGUI/HeMetrics
   renderMode: 0
   renderCamera: {fileID: 0}
   position: {x: 0, y: 0, z: 0}

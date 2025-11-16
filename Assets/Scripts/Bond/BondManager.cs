@@ -6,6 +6,7 @@
     {
         Dictionary<BondType,List<int>>  bondsConfig = new Dictionary<BondType, List<int>>();
         Dictionary<BondType,List<int>>  currentBonds = new Dictionary<BondType, List<int>>();
+        Dictionary<BondType,List<int>>  currentEnemyBonds = new Dictionary<BondType, List<int>>();
 
         public void AddBondConfig(BondType bondType, int id)
         {
@@ -24,21 +25,40 @@
             }
         }
 
-        public void AddBond(BondType bondType, int id)
+        public void AddBond(BondType bondType, int id,bool isMine)
         {
-            if (!currentBonds.TryGetValue(bondType, out List<int> list))
+            Dictionary<BondType,List<int>> foo =null;
+            if (isMine)
+            {
+                foo = currentBonds;
+            }
+            else
+            {
+                foo = currentEnemyBonds;
+            }
+            
+            if (!foo.TryGetValue(bondType, out List<int> list))
             {
                 list = new List<int>();
-                currentBonds[bondType] = list; 
+                foo[bondType] = list; 
             }
             list.Add(id); 
         }
-        public void RemoveBond(BondType bondType, int id)
+        public void RemoveBond(BondType bondType, int id,bool isMine)
         {
-            currentBonds[bondType].Remove(id);
-            if (currentBonds[bondType].Count == 0)
+            Dictionary<BondType,List<int>> foo =null;
+            if (isMine)
             {
-                currentBonds.Remove(bondType);
+                foo = currentBonds;
+            }
+            else
+            {
+                foo = currentEnemyBonds;
+            }
+            foo[bondType].Remove(id);
+            if (foo[bondType].Count == 0)
+            {
+                foo.Remove(bondType);
             }
         }
 
@@ -57,27 +77,34 @@
             {
                 foreach (var bondType in character.bondTypes)
                 {
-                    AddBond(bondType,character.id);
+                    AddBond(bondType,character.id,character.isMine);
                 }
             }
             else
             {
                 foreach (var bondType in character.bondTypes)
                 {
-                    RemoveBond(bondType,character.id);
+                    RemoveBond(bondType,character.id,character.isMine);
                 }
             }
             Core.LogicMgr.bondLogic.ChangeCharacter(character,isHex);
         }
         
-        /// <summary>
-        /// 获取当前激活的羁绊信息
-        /// </summary>
-        /// <returns>羁绊类型和对应的角色数量</returns>
-        public Dictionary<BondType, int> GetActiveBonds()
+      
+        public Dictionary<BondType, int> GetMyActiveBonds()
         {
             Dictionary<BondType, int> activeBonds = new Dictionary<BondType, int>();
             foreach (var kvp in currentBonds)
+            {
+                activeBonds[kvp.Key] = kvp.Value.Count;
+            }
+            return activeBonds;
+        }
+        
+        public Dictionary<BondType, int> GetEnemyActiveBonds()
+        {
+            Dictionary<BondType, int> activeBonds = new Dictionary<BondType, int>();
+            foreach (var kvp in currentEnemyBonds)
             {
                 activeBonds[kvp.Key] = kvp.Value.Count;
             }
