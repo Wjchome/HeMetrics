@@ -8,7 +8,7 @@ using UnityEngine;
 public enum CharacterState
 {
     Idle, //没有寻路到敌人并且没有走动时
-    Walk, //找到敌人并且
+    Move, //找到敌人并且
     Attack//
 }
 
@@ -22,7 +22,7 @@ public class Character : MonoBehaviour
 
     public CharacterState lastState;
     public CharacterState currentState;
-
+    public FSMStateMgr<Character,CharacterState> fsm;
     public int id;
     public CharacterData data;
     
@@ -50,7 +50,7 @@ public class Character : MonoBehaviour
     protected long lastChecktargetFrame = 0;
 
     protected List<HexCell> movePath = new List<HexCell>();
-    protected Character nearestEnemy;
+    public Character nearestEnemy;
 
     public bool isDead = false;
 
@@ -78,6 +78,13 @@ public class Character : MonoBehaviour
         attackWindupFrame = (int)(attackWindup * Const.ServerFrame);
         realAttackFrame = -1;
         
+        // 初始化FSM
+        fsm = new FSMStateMgr<Character, CharacterState>(this);
+        // 注册状态
+        fsm.RegisterState(CharacterState.Idle, new CharacterIdleState());
+        fsm.RegisterState(CharacterState.Move, new CharacterMoveState());
+        fsm.RegisterState(CharacterState.Attack, new CharacterAttackState());
+        fsm.ChangeState(CharacterState.Idle);
         
         HPUIShow();
     }
@@ -90,11 +97,10 @@ public class Character : MonoBehaviour
 
     public void UpdateFrame()
     {
-        UpdateTarget();
-        UpdateState();
+        fsm.Update();
     }
 
-    void UpdateTarget()
+    public void UpdateTarget()
     {
         if (lastChecktargetFrame + Const.findTargetFrame < Core.NetMgr.serverTimer)
         {

@@ -18,11 +18,11 @@ public class ShootCharacter : Character
         }
         else
         {
-            currentState = CharacterState.Walk;
+            currentState = CharacterState.Move;
         }
 
 
-        if (currentState == CharacterState.Walk)
+        if (currentState == CharacterState.Move)
         {
             if (lastState == CharacterState.Attack)
             {
@@ -48,7 +48,7 @@ public class ShootCharacter : Character
         }
         else if (currentState == CharacterState.Attack)
         {
-            if (lastState == CharacterState.Walk)
+            if (lastState == CharacterState.Move)
             {
                 lastAttackFrame = Core.NetMgr.serverTimer;
             }
