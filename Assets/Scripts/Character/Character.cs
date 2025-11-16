@@ -7,8 +7,9 @@ using UnityEngine;
 
 public enum CharacterState
 {
-    Walk,
-    Attack
+    Idle, //没有寻路到敌人并且没有走动时
+    Walk, //找到敌人并且
+    Attack//
 }
 
 public class Character : MonoBehaviour

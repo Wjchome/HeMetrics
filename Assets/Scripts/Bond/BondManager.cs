@@ -87,7 +87,11 @@
                     RemoveBond(bondType,character.id,character.isMine);
                 }
             }
-            Core.LogicMgr.bondLogic.ChangeCharacter(character,isHex);
+            // 获取当前激活的羁绊信息
+            var myActiveBonds = GetMyActiveBonds();
+            var enemyActiveBonds = GetEnemyActiveBonds();
+
+            Core.LogicMgr.bondLogic.ChangeCharacter(myActiveBonds,enemyActiveBonds);
         }
         
       
@@ -111,15 +115,5 @@
             return activeBonds;
         }
         
-        /// <summary>
-        /// 获取羁绊配置中该羁绊类型需要的总角色数量
-        /// </summary>
-        public int GetBondConfigCount(BondType bondType)
-        {
-            if (bondsConfig.TryGetValue(bondType, out List<int> list))
-            {
-                return list.Count;
-            }
-            return 0;
-        }
+        
     }

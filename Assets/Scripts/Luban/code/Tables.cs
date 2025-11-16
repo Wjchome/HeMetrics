@@ -13,16 +13,19 @@ using SimpleJSON;
 
 public partial class Tables
 {
+    public TbBondData TbBondData {get; }
     public TbCharacterData TbCharacterData {get; }
 
     public Tables(System.Func<string, JSONNode> loader)
     {
+        TbBondData = new TbBondData(loader("tbbonddata"));
         TbCharacterData = new TbCharacterData(loader("tbcharacterdata"));
         ResolveRef();
     }
     
     private void ResolveRef()
     {
+        TbBondData.ResolveRef(this);
         TbCharacterData.ResolveRef(this);
     }
 }

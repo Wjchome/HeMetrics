@@ -15,4 +15,9 @@ public class LuBanDataManager
     {
         return tables.TbCharacterData;
     }
+
+    public TbBondData BondData()
+    {
+        return tables.TbBondData;
+    }
 }

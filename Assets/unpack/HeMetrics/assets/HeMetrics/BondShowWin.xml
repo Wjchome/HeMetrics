@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="1920,1080">
   <displayList>
-    <list id="n0_oeri" name="List" xy="15,51" size="200,768" overflow="scroll" defaultItem="ui://dbrqdbn1oeri1" autoClearItems="true">
+    <list id="n0_oeri" name="List" xy="15,51" size="120,768" overflow="scroll" defaultItem="ui://dbrqdbn1oeri1" autoClearItems="true">
       <item/>
       <item/>
       <item/>
       <item/>
       <item/>
     </list>
-    <list id="n1_dbu6" name="List1" xy="1615,59" size="200,794" overflow="scroll" defaultItem="ui://dbrqdbn1oeri1" autoClearItems="true">
+    <list id="n1_dbu6" name="List1" xy="1615,59" size="120,794" overflow="scroll" defaultItem="ui://dbrqdbn1oeri1" autoClearItems="true">
       <item/>
       <item/>
       <item/>

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using FairyGUI;
 using UnityEngine;
 
@@ -44,32 +45,60 @@ public class BondShowWin : GComponent
     {
         BondType bondType = myActiveBondList[index];
         int currentCount = myActiveBonds.TryGetValue(bondType, out int count) ? count : 0;
-        int totalCount = Core.bondMgr.GetBondConfigCount(bondType);
-
+        BondData bondData = Core.dataMgr.BondData()[bondType];
+        StringBuilder sb = new StringBuilder();
+        foreach (var level in  bondData.Level)
+        {
+            sb.Append(level);
+            if (level > currentCount)
+            {
+                currentCount = level;
+                break;
+            }
+            sb.Append("/");
+        }
+        
+        
         // 获取羁绊名称
         string bondName = GetBondName(bondType);
 
         GTextField nameText = item.asCom.GetChild("Txt_name") as GTextField;
         GTextField countText = item.asCom.GetChild("Txt_count") as GTextField;
+        GTextField levelsText = item.asCom.GetChild("Txt_levels") as GTextField;
 
         nameText.text = bondName;
-        countText.text = $"{currentCount}/{totalCount}";
+        countText.text = currentCount .ToString();
+        levelsText.text = sb.ToString();
+
     }
 
     private void RenderEnemyBondItem(int index, GObject item)
     {
         BondType bondType = enemyActiveBondList[index];
         int currentCount = enemyActiveBonds.TryGetValue(bondType, out int count) ? count : 0;
-        int totalCount = Core.bondMgr.GetBondConfigCount(bondType);
-
-        // 获取羁绊名称
+        
         string bondName = GetBondName(bondType);
+        BondData bondData = Core.dataMgr.BondData()[bondType];
+        StringBuilder sb = new StringBuilder();
+        foreach (var level in  bondData.Level)
+        {
+            sb.Append(level);
+            if (level > currentCount)
+            {
+                currentCount = level;
+                break;
+            }
+            sb.Append("/");
+        }
 
         GTextField nameText = item.asCom.GetChild("Txt_name") as GTextField;
         GTextField countText = item.asCom.GetChild("Txt_count") as GTextField;
+        GTextField levelsText = item.asCom.GetChild("Txt_levels") as GTextField;
+        
 
         nameText.text = bondName;
-        countText.text = $"{currentCount}/{totalCount}";
+        countText.text = currentCount.ToString();
+        levelsText.text = sb.ToString();
     }
 
     /// <summary>
