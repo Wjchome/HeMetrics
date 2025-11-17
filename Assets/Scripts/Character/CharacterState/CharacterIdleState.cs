@@ -7,6 +7,7 @@ public class CharacterIdleState : FSMState<Character>
 {
     public override void OnUpdate()
     {
+        Owner.UpdateTarget();
         if (Owner.nearestEnemy != null)
         {
             int dis = Core.HexMapMgr.GetHexDistance(Owner.currentCell as HexCell,
