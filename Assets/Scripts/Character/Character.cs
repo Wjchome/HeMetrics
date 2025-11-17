@@ -37,6 +37,9 @@ public class Character : MonoBehaviour
     public List<BondType> bondTypes;
     
     public int HP;
+    
+    // 攻击行为组件（根据角色类型动态创建）
+    public IAttackBehavior attackBehavior;
 
     public int moveIntervalFrame;
     public long lastMoveFrame;
@@ -78,12 +81,15 @@ public class Character : MonoBehaviour
         attackWindupFrame = (int)(attackWindup * Const.ServerFrame);
         realAttackFrame = -1;
         
+        // 根据角色类型创建对应的攻击行为
+        attackBehavior = AttackBehaviorFactory.CreateAttackBehavior(data.CharacterType);
+        
         // 初始化FSM
         fsm = new FSMStateMgr<Character, CharacterState>(this);
-        // 注册状态
+        // 注册状态（使用工厂创建，方便将来扩展）
         fsm.RegisterState(CharacterState.Idle, new CharacterIdleState());
         fsm.RegisterState(CharacterState.Move, new CharacterMoveState());
-        fsm.RegisterState(CharacterState.Attack, new CharacterAttackState());
+        fsm.RegisterState(CharacterState.Attack, CharacterAttackStateFactory.CreateAttackState(data.CharacterType));
         fsm.ChangeState(CharacterState.Idle);
         
         HPUIShow();
@@ -118,15 +124,9 @@ public class Character : MonoBehaviour
         }
     }
 
-    protected virtual void UpdateState()
-    {
-    }
 
 
-    public void Attack()
-    {
-        nearestEnemy.Defend(attack);
-    }
+
 
     public void Defend(int damage)
     {

@@ -20,9 +20,9 @@ public class Core : MonoBehaviour
     
     public Bullet bulletPrefab;
     public Bullet1 bullet1Prefab;
-    public MeleeCharacter meleeCharacterPrefab;
-    public RangedCharacter rangedCharacterPrefab;
-    public ShootCharacter shootCharacterPrefab;
+    
+    // 统一的Character预制体（不再需要3个不同的预制体）
+    public Character characterPrefab;
     private void Awake()
     {
         Application.targetFrameRate = 20;
@@ -52,6 +52,7 @@ public class Core : MonoBehaviour
         bondMgr.Init();
         UIMgr.Init();
         LogicMgr.Init();
+        //
     }
 
     /// <summary>

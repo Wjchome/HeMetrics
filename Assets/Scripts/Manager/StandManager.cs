@@ -23,24 +23,10 @@ public class StandManager : MonoBehaviour
             myStandCells.Add(Instantiate(standCellPrefab, Vector3.Lerp(
                 startPoint.position, endPoint.position, (float)i / standNum), Quaternion.identity, transform));
 
-            Character character = null;
-
             var data = Core.dataMgr.CharacterData()[i + 1];
-            Character prefab = null;
-            if (data.CharacterType == CharacterType.Melee)
-            {
-                prefab = Core.I.meleeCharacterPrefab;
-            }
-            else if (data.CharacterType == CharacterType.Ranged)
-            {
-                prefab = Core.I.rangedCharacterPrefab;
-            }
-            else
-            {
-                prefab = Core.I.shootCharacterPrefab;
-            }
-
-            character = Instantiate(prefab, myStandCells[i].transform.position,
+            
+            // 使用统一的Character预制体，攻击行为会根据CharacterType自动创建
+            Character character = Instantiate(Core.I.characterPrefab, myStandCells[i].transform.position,
                 Quaternion.identity);
             character.Init(i + 1);
 
