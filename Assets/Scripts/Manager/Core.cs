@@ -52,7 +52,7 @@ public class Core : MonoBehaviour
         bondMgr.Init();
         UIMgr.Init();
         LogicMgr.Init();
-        //
+        
     }
 
     /// <summary>
