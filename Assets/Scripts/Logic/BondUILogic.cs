@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BondLogic
+public class BondUILogic
 {
     public void ChangeCharacter(Dictionary<BondType, int> myActiveBonds, Dictionary<BondType, int> enemyActiveBonds)
     {

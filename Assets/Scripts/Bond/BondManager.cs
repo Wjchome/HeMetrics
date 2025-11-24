@@ -5,8 +5,8 @@
     public class BondManager:MonoBehaviour
     {
         Dictionary<BondType,List<int>>  bondsConfig = new Dictionary<BondType, List<int>>();
-        Dictionary<BondType,List<int>>  currentBonds = new Dictionary<BondType, List<int>>();
-        Dictionary<BondType,List<int>>  currentEnemyBonds = new Dictionary<BondType, List<int>>();
+        Dictionary<BondType,List<Character>>  currentBonds = new Dictionary<BondType, List<Character>>();
+        Dictionary<BondType,List<Character>>  currentEnemyBonds = new Dictionary<BondType, List<Character>>();
 
         public void AddBondConfig(BondType bondType, int id)
         {
@@ -25,9 +25,9 @@
             }
         }
 
-        public void AddBond(BondType bondType, int id,bool isMine)
+        public void AddBond(BondType bondType, Character id,bool isMine)
         {
-            Dictionary<BondType,List<int>> foo =null;
+            Dictionary<BondType,List<Character>> foo =null;
             if (isMine)
             {
                 foo = currentBonds;
@@ -37,16 +37,16 @@
                 foo = currentEnemyBonds;
             }
             
-            if (!foo.TryGetValue(bondType, out List<int> list))
+            if (!foo.TryGetValue(bondType, out List<Character> list))
             {
-                list = new List<int>();
+                list = new List<Character>();
                 foo[bondType] = list; 
             }
             list.Add(id); 
         }
-        public void RemoveBond(BondType bondType, int id,bool isMine)
+        public void RemoveBond(BondType bondType, Character id,bool isMine)
         {
-            Dictionary<BondType,List<int>> foo =null;
+            Dictionary<BondType,List<Character>> foo =null;
             if (isMine)
             {
                 foo = currentBonds;
@@ -77,21 +77,56 @@
             {
                 foreach (var bondType in character.bondTypes)
                 {
-                    AddBond(bondType,character.id,character.isMine);
+                    AddBond(bondType,character,character.isMine);
                 }
             }
             else
             {
                 foreach (var bondType in character.bondTypes)
                 {
-                    RemoveBond(bondType,character.id,character.isMine);
+                    RemoveBond(bondType,character,character.isMine);
                 }
             }
             // 获取当前激活的羁绊信息
             var myActiveBonds = GetMyActiveBonds();
             var enemyActiveBonds = GetEnemyActiveBonds();
 
-            Core.LogicMgr.bondLogic.ChangeCharacter(myActiveBonds,enemyActiveBonds);
+            List<Character> battleCharacters = Core.CharacterMgr.GetBattleCharacters();
+            //重新算羁绊
+            foreach (var battleCharacter in battleCharacters)
+            {
+                battleCharacter.attributeManager = new AttributeManager();
+                
+            }
+
+            foreach (var kv in currentBonds)
+            {
+                BondData bondData = Core.dataMgr.BondData()[kv.Key];
+                int lay = -1;
+                foreach (var level in bondData.Level )
+                {
+                    if (kv.Value.Count >= level)
+                    {
+                        lay = level;
+                    }
+                }
+
+                if (lay != -1)
+                {
+                    foreach (var _character in kv.Value)
+                    {
+                        _character.attributeManager.Add(kv.Key.ToString(),"羁绊",lay);
+                    }
+                }
+
+                 
+                
+            }
+
+            
+
+           
+            Core.LogicMgr.BondUILogic.ChangeCharacter(myActiveBonds,enemyActiveBonds);
         }
         
       

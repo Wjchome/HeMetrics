@@ -31,7 +31,7 @@ public class Core : MonoBehaviour
         dataMgr = new LuBanDataManager();
         CharacterMgr = new CharacterManager();
         HexMapMgr = GetComponent<HexMapManager>();
-        NetMgr = new NetManager();
+        NetMgr = GetComponent<NetManager>();
         StandMgr = GetComponent<StandManager>();
         UIMgr =GetComponent<UIManager>();
         GameMgr = new GameManager();
@@ -65,16 +65,18 @@ public class Core : MonoBehaviour
             GameMgr.gameState = (GameState)((int)(GameMgr.gameState + 1) % 2);
             Debug.Log("GameMgr.gameState = " + GameMgr.gameState);
         }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            
+        }
 
         // 更新点击和拖动处理
         RayCastHandler.Update();
-        
-        UpdateFrame();
+        NetMgr.Update();
     }
 
-    private void UpdateFrame()
+    public void UpdateFrame()
     {
-        NetMgr.UpdateFrame();
         BulletMgr.UpdateFrame();
         Bullet1Mgr.UpdateFrame();
         CharacterMgr.UpdateFrame();

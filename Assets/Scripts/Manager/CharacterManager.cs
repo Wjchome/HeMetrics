@@ -79,4 +79,10 @@ public class CharacterManager
             standCharacters.Add(character);
         }
     }
+    
+    
+    public List<Character> GetBattleCharacters()
+    {
+        return battleCharacters;
+    }
 }

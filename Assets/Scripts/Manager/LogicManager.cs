@@ -1,8 +1,8 @@
 public class LogicManager
 {
-    public BondLogic bondLogic;
+    public BondUILogic BondUILogic;
     public void Init()
     {
-        bondLogic = new BondLogic();
+        BondUILogic = new BondUILogic();
     }
 }
