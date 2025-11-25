@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading;
 using UnityEngine;
+using Google.Protobuf;
 
 /// <summary>
 /// Unity TCP客户端 - 用于连接Go服务器
@@ -12,13 +13,23 @@ public class NetManager : MonoBehaviour
     private TcpClient tcpClient; //tcp连接
     private NetworkStream stream; //写流
     private Thread receiveThread; //听线程
+    private Thread keepAliveThread; //心跳线程
     private bool isConnected = false; //是否连接
     private uint reqIdCounter = 0; //一个消息id计数器
     private Dictionary<uint, Action<byte[]>> pendingRequests = new Dictionary<uint, Action<byte[]>>();
     private Queue<Action> actionQueue = new Queue<Action>();
 
+
+
     [Header("服务器配置")] public string serverHost = "127.0.0.1";
     public int serverPort = 1024;
+
+    [Header("心跳配置")] 
+    public float keepAliveInterval = 2f; // 心跳间隔（秒）
+
+    // 心跳相关常量（与Go服务器保持一致）
+    private const uint InnerServiceModuleId = 1u << 31; // 2147483648
+    private const uint KeepAliveRouterId = 1u << 31; // 2147483648
 
     public int serverTimer = 0;
     public void Init()
@@ -43,6 +54,11 @@ public class NetManager : MonoBehaviour
             receiveThread.IsBackground = true;
             receiveThread.Start();
 
+            // 启动心跳线程
+            keepAliveThread = new Thread(KeepAlive);
+            keepAliveThread.IsBackground = true;
+            keepAliveThread.Start();
+
             Debug.Log($"已连接到服务器 {serverHost}:{serverPort}");
         }
         catch (Exception e)
@@ -59,7 +75,12 @@ public class NetManager : MonoBehaviour
     /// <param name="routerId">路由ID</param>
     /// <param name="messageBody">Protobuf序列化的消息体</param>
     /// <param name="onResponse">响应回调</param>
-    public void SendRequest(uint moduleId, uint routerId, byte[] messageBody, Action<byte[]> onResponse)
+    /// <summary>
+    /// 泛型发送请求（自动序列化Protobuf，回调返回IMessage）
+    /// </summary>
+    /// <typeparam name="TReq">请求消息类型（实现IMessage）</typeparam>
+    /// <typeparam name="TRsp">响应消息类型（实现IMessage）</typeparam>
+    public void SendRequest(uint moduleId, uint routerId,byte[] messageBody, Action<byte[]> onResponse)
     {
         if (!isConnected)
         {
@@ -67,18 +88,16 @@ public class NetManager : MonoBehaviour
             return;
         }
 
+
         reqIdCounter++;
         uint reqId = reqIdCounter;
 
-        // 注册响应回调
+        // 2. 注册回调：将TRsp（IMessage）包装成Action<IMessage>存入字典
+        pendingRequests[reqId] = (rspMsg) =>onResponse(rspMsg);
+     
 
-        pendingRequests[reqId] = onResponse;
-
-
-        // 构建请求包
+        // 3. 后续打包、发送逻辑不变
         byte[] packet = BuildReqPacket(moduleId, routerId, reqId, false, messageBody);
-
-        // 构建帧（添加长度字段）
         byte[] frame = BuildFrame(packet);
 
         try
@@ -89,7 +108,6 @@ public class NetManager : MonoBehaviour
         catch (Exception e)
         {
             Debug.LogError($"发送请求失败: {e.Message}");
-
             pendingRequests.Remove(reqId);
         }
     }
@@ -280,12 +298,45 @@ public class NetManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 心跳机制 - 定期发送心跳包保持连接
+    /// </summary>
+    private void KeepAlive()
+    {
+        while (isConnected && tcpClient != null && tcpClient.Connected)
+        {
+            try
+            {
+                // 发送心跳包（空消息体，isOneWay=true，silent=true不输出日志）
+                SendEvent(InnerServiceModuleId, KeepAliveRouterId, new byte[0]);
+                
+                // 等待指定间隔
+                Thread.Sleep((int)(keepAliveInterval * 1000));
+            }
+            catch (Exception e)
+            {
+                if (isConnected)
+                {
+                    Debug.LogWarning($"发送心跳失败: {e.Message}");
+                }
+                break;
+            }
+        }
+    }
+
+    /// <summary>
     /// 断开连接
     /// </summary>
     public void Disconnect()
     {
         isConnected = false;
 
+        // 等待心跳线程结束
+        if (keepAliveThread != null && keepAliveThread.IsAlive)
+        {
+            keepAliveThread.Join(1000);
+        }
+
+        // 等待接收线程结束
         if (receiveThread != null && receiveThread.IsAlive)
         {
             receiveThread.Join(1000);
