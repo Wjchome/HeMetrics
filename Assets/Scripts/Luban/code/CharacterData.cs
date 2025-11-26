@@ -28,6 +28,7 @@ public sealed partial class CharacterData : Luban.BeanBase
         { if(!_buf["attackWindup"].IsNumber) { throw new SerializationException(); }  AttackWindup = _buf["attackWindup"]; }
         { if(!_buf["attackRange"].IsNumber) { throw new SerializationException(); }  AttackRange = _buf["attackRange"]; }
         { var __json0 = _buf["bondList"]; if(!__json0.IsArray) { throw new SerializationException(); } BondList = new System.Collections.Generic.List<BondType>(__json0.Count); foreach(JSONNode __e0 in __json0.Children) { BondType __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = (BondType)__e0.AsInt; }  BondList.Add(__v0); }   }
+        { if(!_buf["icon_url"].IsString) { throw new SerializationException(); }  IconUrl = _buf["icon_url"]; }
     }
 
     public static CharacterData DeserializeCharacterData(JSONNode _buf)
@@ -47,6 +48,7 @@ public sealed partial class CharacterData : Luban.BeanBase
     public readonly float AttackWindup;
     public readonly int AttackRange;
     public readonly System.Collections.Generic.List<BondType> BondList;
+    public readonly string IconUrl;
    
     public const int __ID__ = -991456685;
     public override int GetTypeId() => __ID__;
@@ -70,6 +72,7 @@ public sealed partial class CharacterData : Luban.BeanBase
         + "attackWindup:" + AttackWindup + ","
         + "attackRange:" + AttackRange + ","
         + "bondList:" + Luban.StringUtil.CollectionToString(BondList) + ","
+        + "iconUrl:" + IconUrl + ","
         + "}";
     }
 }

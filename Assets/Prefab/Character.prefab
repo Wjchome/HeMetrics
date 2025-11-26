@@ -478,8 +478,8 @@ MonoBehaviour:
   attackIntervalFrame: 0
   lastAttackFrame: 0
   attackWindupFrame: 0
-  realAttackFrame: 0
   lastChecktargetFrame: 0
   movePath: []
   nearestEnemy: {fileID: 0}
   isDead: 0
+  spriteRenderer: {fileID: 6021747192071528259}

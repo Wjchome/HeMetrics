@@ -20,6 +20,7 @@ public sealed partial class BondData : Luban.BeanBase
         { if(!_buf["name"].IsString) { throw new SerializationException(); }  Name = _buf["name"]; }
         { var __json0 = _buf["level"]; if(!__json0.IsArray) { throw new SerializationException(); } Level = new System.Collections.Generic.List<int>(__json0.Count); foreach(JSONNode __e0 in __json0.Children) { int __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = __e0; }  Level.Add(__v0); }   }
         { var __json0 = _buf["desc"]; if(!__json0.IsArray) { throw new SerializationException(); } Desc = new System.Collections.Generic.List<string>(__json0.Count); foreach(JSONNode __e0 in __json0.Children) { string __v0;  { if(!__e0.IsString) { throw new SerializationException(); }  __v0 = __e0; }  Desc.Add(__v0); }   }
+        { var __json0 = _buf["buffList"]; if(!__json0.IsArray) { throw new SerializationException(); } BuffList = new System.Collections.Generic.List<System.Collections.Generic.List<BuffData>>(__json0.Count); foreach(JSONNode __e0 in __json0.Children) { System.Collections.Generic.List<BuffData> __v0;  { var __json1 = __e0; if(!__json1.IsArray) { throw new SerializationException(); } __v0 = new System.Collections.Generic.List<BuffData>(__json1.Count); foreach(JSONNode __e1 in __json1.Children) { BuffData __v1;  { if(!__e1.IsObject) { throw new SerializationException(); }  __v1 = global::BuffData.DeserializeBuffData(__e1);  }  __v0.Add(__v1); }   }  BuffList.Add(__v0); }   }
     }
 
     public static BondData DeserializeBondData(JSONNode _buf)
@@ -31,6 +32,10 @@ public sealed partial class BondData : Luban.BeanBase
     public readonly string Name;
     public readonly System.Collections.Generic.List<int> Level;
     public readonly System.Collections.Generic.List<string> Desc;
+    /// <summary>
+    /// 有几个buff,1,1,0代表 1代表攻击，1，0代表值
+    /// </summary>
+    public readonly System.Collections.Generic.List<System.Collections.Generic.List<BuffData>> BuffList;
    
     public const int __ID__ = 2033707309;
     public override int GetTypeId() => __ID__;
@@ -46,6 +51,7 @@ public sealed partial class BondData : Luban.BeanBase
         + "name:" + Name + ","
         + "level:" + Luban.StringUtil.CollectionToString(Level) + ","
         + "desc:" + Luban.StringUtil.CollectionToString(Desc) + ","
+        + "buffList:" + Luban.StringUtil.CollectionToString(BuffList) + ","
         + "}";
     }
 }

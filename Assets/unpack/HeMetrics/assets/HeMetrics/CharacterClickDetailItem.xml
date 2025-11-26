@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component size="100,100">
+<component size="300,100">
   <displayList>
-    <richtext id="n0_ngwt" name="Txt_name" xy="13,11" size="69,34" fontSize="24" text="name"/>
-    <richtext id="n1_ngwt" name="Txt_value" xy="16,57" size="66,34" fontSize="24" text="value"/>
+    <richtext id="n0_ngwt" name="Txt_name" xy="9,6" size="279,34" fontSize="24" autoSize="shrink" text="name"/>
+    <richtext id="n1_ngwt" name="Txt_value" xy="10,53" size="279,34" fontSize="24" autoSize="shrink" text="value"/>
   </displayList>
 </component>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component size="800,100">
+<component size="1500,100">
   <displayList>
     <richtext id="n1_ngwt" name="Txt_name" xy="29,31" size="102,49" fontSize="36" text="name"/>
-    <list id="n2_ngwt" name="List_show" xy="179,25" size="347,60" layout="row" overflow="scroll" scroll="horizontal" defaultItem="ui://dbrqdbn1ngwt4" autoClearItems="true">
+    <list id="n2_ngwt" name="List_show" xy="179,25" size="1174,60" layout="row" overflow="scroll" scroll="horizontal" defaultItem="ui://dbrqdbn1ngwt4" autoClearItems="true">
       <item/>
       <item/>
       <item/>
@@ -13,6 +13,6 @@
       <item/>
       <item/>
     </list>
-    <richtext id="n3_ngwt" name="Txt_value" xy="610,25" size="98,59" fontSize="44" text="final"/>
+    <richtext id="n3_ngwt" name="Txt_value" xy="1376,25" size="98,59" fontSize="44" text="final"/>
   </displayList>
 </component>

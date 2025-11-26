@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component size="800,600">
+<component size="1600,1121">
   <displayList>
-    <list id="n0_ngwt" name="List_show" xy="18,41" size="779,495" overflow="scroll" defaultItem="ui://dbrqdbn1ngwt3" autoClearItems="true">
+    <graph id="n2_u7c8" name="n2" xy="3,1" size="1593,1118" type="rect" lineColor="#33000000" fillColor="#33000000">
+      <relation target="" sidePair="width-width,height-height"/>
+    </graph>
+    <graph id="n4_u7c8" name="n4" xy="20,698" size="1570,32" type="rect"/>
+    <richtext id="n1_u7c8" name="Txt_character" xy="676,40" size="220,77" fontSize="30" align="center" vAlign="middle" autoSize="shrink" text="角色1">
+      <relation target="" sidePair="center-center"/>
+    </richtext>
+    <list id="n0_ngwt" name="List_show" xy="29,153" size="1552,520" overflow="scroll" defaultItem="ui://dbrqdbn1ngwt3" autoClearItems="true">
       <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+    </list>
+    <list id="n3_u7c8" name="List_bond" xy="36,754" size="1532,300" layout="row" overflow="scroll" scroll="horizontal" defaultItem="ui://dbrqdbn1u7c85">
       <item/>
       <item/>
       <item/>

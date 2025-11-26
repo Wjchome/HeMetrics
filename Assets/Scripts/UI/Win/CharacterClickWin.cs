@@ -8,6 +8,8 @@ public class CharacterClickWin: GComponent,IUIComponent
 {
     //  private GComponent ui;
     private GList showList;
+    private GList bondList;
+    private GTextField characterTxt;
     private Character target;
     private Info  info;
     
@@ -18,8 +20,14 @@ public class CharacterClickWin: GComponent,IUIComponent
     }
     public void Init()
     {
+        
         showList = GetChild("List_show") as GList;
-        showList.itemRenderer = RenderItem;
+        bondList = GetChild("List_bond") as GList;
+        characterTxt = GetChild("Txt_character") as GTextField;
+        
+        showList.itemRenderer = showListRenderItem;
+        bondList.itemRenderer = bondListRenderItem;
+        
     }
 
 
@@ -37,7 +45,11 @@ public class CharacterClickWin: GComponent,IUIComponent
             info.names.Add(item.Key);
             info.attributes.Add(item.Value);
         }
+        
+        characterTxt.text = character.data.Name;
         showList.numItems = data.attributeDic.Count;
+        bondList.numItems = character.data.BondList.Count;
+
     }
 
     public void HideContent()
@@ -46,7 +58,7 @@ public class CharacterClickWin: GComponent,IUIComponent
     }
 
 
-    private void RenderItem(int index, GObject item)
+    private void showListRenderItem(int index, GObject item)
     {
         if(info==null || index < 0 || index >= info.names.Count)
         {
@@ -138,5 +150,18 @@ public class CharacterClickWin: GComponent,IUIComponent
     {
         return character == target;
     }
-    
+
+
+    private void bondListRenderItem(int index, GObject item)
+    {
+        if (target==null)
+        {
+            return;
+        }
+        
+        GTextField bondNameTxt = item.asCom.GetChild("Txt_bondName")as GTextField;
+        bondNameTxt.text = target.data.BondList[index].ToString();
+        
+    }
+
 }

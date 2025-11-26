@@ -29,13 +29,16 @@ public class StandManager : MonoBehaviour
             Character character = Instantiate(Core.I.characterPrefab, myStandCells[i].transform.position,
                 Quaternion.identity);
             character.Init(i + 1);
-
+        
             Core.CharacterMgr.AddStandCharacter(character);
             character.currentCell = myStandCells[i];
             myStandCells[i].characterOn = character;
             character.isMine = i % 2 == 0;
             if (character.isMine)
-                character.GetComponent<Renderer>().material.color = Color.cyan;
+                character.GetComponent<Renderer>().material.color = new Color(1,1,1,0.5f);
+            else
+                character.GetComponent<Renderer>().material.color = new Color(1,1,1,1);
+           
         }
     }
 }

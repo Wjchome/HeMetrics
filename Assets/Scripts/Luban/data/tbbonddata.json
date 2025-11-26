@@ -11,6 +11,29 @@
       "攻击1",
       "攻击2",
       "攻击3"
+    ],
+    "buffList": [
+      [
+        {
+          "useType": 1,
+          "Param1": 1,
+          "Param2": 0
+        }
+      ],
+      [
+        {
+          "useType": 1,
+          "Param1": 2,
+          "Param2": 0
+        }
+      ],
+      [
+        {
+          "useType": 1,
+          "Param1": 2,
+          "Param2": 0
+        }
+      ]
     ]
   },
   {
@@ -25,6 +48,29 @@
       "防御1",
       "防御2",
       "防御3"
+    ],
+    "buffList": [
+      [
+        {
+          "useType": 1,
+          "Param1": 1,
+          "Param2": 0
+        }
+      ],
+      [
+        {
+          "useType": 1,
+          "Param1": 2,
+          "Param2": 0
+        }
+      ],
+      [
+        {
+          "useType": 1,
+          "Param1": 2,
+          "Param2": 0
+        }
+      ]
     ]
   },
   {
@@ -39,6 +85,29 @@
       "移动1",
       "移动2",
       "移动3"
+    ],
+    "buffList": [
+      [
+        {
+          "useType": 1,
+          "Param1": 1,
+          "Param2": 0
+        }
+      ],
+      [
+        {
+          "useType": 1,
+          "Param1": 2,
+          "Param2": 0
+        }
+      ],
+      [
+        {
+          "useType": 1,
+          "Param1": 2,
+          "Param2": 0
+        }
+      ]
     ]
   },
   {
@@ -53,6 +122,29 @@
       "血量1",
       "血量2",
       "血量3"
+    ],
+    "buffList": [
+      [
+        {
+          "useType": 1,
+          "Param1": 1,
+          "Param2": 0
+        }
+      ],
+      [
+        {
+          "useType": 1,
+          "Param1": 2,
+          "Param2": 0
+        }
+      ],
+      [
+        {
+          "useType": 1,
+          "Param1": 2,
+          "Param2": 0
+        }
+      ]
     ]
   }
 ]

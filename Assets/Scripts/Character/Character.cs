@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using DG.Tweening;
@@ -58,6 +58,7 @@ public class Character : MonoBehaviour
 
     public AttributeManager attributeManager;
 
+    public SpriteRenderer spriteRenderer;
     public void Init(int id)
     {
         this.id = id;
@@ -95,6 +96,8 @@ public class Character : MonoBehaviour
         fsm.RegisterState(CharacterState.Attack, CharacterAttackStateFactory.CreateAttackState(data.CharacterType));
         fsm.ChangeState(CharacterState.Idle);
 
+        spriteRenderer.sprite = Resources.Load<Sprite>("Img/" + data.IconUrl);
+        
         // 更新属性（应用所有buff）
         UpdateAttributes();
 
@@ -129,7 +132,7 @@ public class Character : MonoBehaviour
                 new List<Character> { this, nearestEnemy });
         }
     }
-    
+
     public void Defend(int damage)
     {
         if (isDead)
@@ -174,56 +177,43 @@ public class Character : MonoBehaviour
     /// </summary>
     public void UpdateAttributes()
     {
-        // 更新攻击力
-        if (attributeManager != null)
+        attack = attributeManager.GetFinalValue(data.Attack, "Attack");
+        defence = attributeManager.GetFinalValue(data.Defend, "Defence");
+        MaxHP = attributeManager.GetFinalValue(data.MaxHP, "MaxHP");
+
+        // 更新移动间隔（如果有加成）
+        if (attributeManager.HasAttribute("MoveInterval"))
         {
-            attack = attributeManager.GetFinalValue(data.Attack, "Attack");
-            defence = attributeManager.GetFinalValue(data.Defend, "Defence");
-            MaxHP = attributeManager.GetFinalValue(data.MaxHP, "MaxHP");
-            
-            // 更新移动间隔（如果有加成）
-            if (attributeManager.HasAttribute("MoveInterval"))
-            {
-                // MoveInterval的单位是毫秒（int），需要转换为秒（float）
-                int moveBonusMs = attributeManager.GetFinalValue(0, "MoveInterval");
-                moveInterval = data.MoveInterval + (moveBonusMs / 1000f);
-                moveIntervalFrame = (int)(moveInterval * Const.ServerFrame);
-            }
-            else
-            {
-                moveInterval = data.MoveInterval;
-                moveIntervalFrame = (int)(moveInterval * Const.ServerFrame);
-            }
-            
-            // 更新攻击间隔（如果有加成）
-            if (attributeManager.HasAttribute("AttackInterval"))
-            {
-                int attackBonusMs = attributeManager.GetFinalValue(0, "AttackInterval");
-                attackInterval = data.AttackInterval + (attackBonusMs / 1000f);
-                attackIntervalFrame = (int)(attackInterval * Const.ServerFrame);
-            }
-            else
-            {
-                attackInterval = data.AttackInterval;
-                attackIntervalFrame = (int)(attackInterval * Const.ServerFrame);
-            }
-            
-            // 如果最大生命值变化，按比例调整当前生命值
-            if (MaxHP != data.MaxHP)
-            {
-                float hpRatio = data.MaxHP > 0 ? (float)HP / data.MaxHP : 1f;
-                HP = Mathf.RoundToInt(MaxHP * hpRatio);
-                HP = Mathf.Clamp(HP, 0, MaxHP);
-            }
+            // MoveInterval的单位是毫秒（int），需要转换为秒（float）
+            int moveBonusMs = attributeManager.GetFinalValue(0, "MoveInterval");
+            moveInterval = data.MoveInterval + (moveBonusMs / 1000f);
+            moveIntervalFrame = (int)(moveInterval * Const.ServerFrame);
         }
         else
         {
-            // 如果没有AttributeManager，使用基础值
-            attack = data.Attack;
-            defence = data.Defend;
-            MaxHP = data.MaxHP;
             moveInterval = data.MoveInterval;
+            moveIntervalFrame = (int)(moveInterval * Const.ServerFrame);
+        }
+
+        // 更新攻击间隔（如果有加成）
+        if (attributeManager.HasAttribute("AttackInterval"))
+        {
+            int attackBonusMs = attributeManager.GetFinalValue(0, "AttackInterval");
+            attackInterval = data.AttackInterval + (attackBonusMs / 1000f);
+            attackIntervalFrame = (int)(attackInterval * Const.ServerFrame);
+        }
+        else
+        {
             attackInterval = data.AttackInterval;
+            attackIntervalFrame = (int)(attackInterval * Const.ServerFrame);
+        }
+
+        // 如果最大生命值变化，按比例调整当前生命值
+        if (MaxHP != data.MaxHP)
+        {
+            float hpRatio = data.MaxHP > 0 ? (float)HP / data.MaxHP : 1f;
+            HP = Mathf.RoundToInt(MaxHP * hpRatio);
+            HP = Mathf.Clamp(HP, 0, MaxHP);
         }
     }
 
@@ -254,4 +244,3 @@ public class Character : MonoBehaviour
         }
     }
 }
-
