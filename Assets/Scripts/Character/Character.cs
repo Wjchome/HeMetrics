@@ -48,7 +48,6 @@ public class Character : MonoBehaviour
     public long lastAttackFrame;
 
     public int attackWindupFrame;
-    public long realAttackFrame;
 
     public long lastChecktargetFrame = 0;
 
@@ -81,7 +80,9 @@ public class Character : MonoBehaviour
         lastAttackFrame = 0;
 
         attackWindupFrame = (int)(attackWindup * Const.ServerFrame);
-        realAttackFrame = -1;
+
+        // 初始化AttributeManager
+        attributeManager = new AttributeManager();
 
         // 根据角色类型创建对应的攻击行为
         attackBehavior = AttackBehaviorFactory.CreateAttackBehavior(data.CharacterType);
@@ -93,6 +94,9 @@ public class Character : MonoBehaviour
         fsm.RegisterState(CharacterState.Move, new CharacterMoveState());
         fsm.RegisterState(CharacterState.Attack, CharacterAttackStateFactory.CreateAttackState(data.CharacterType));
         fsm.ChangeState(CharacterState.Idle);
+
+        // 更新属性（应用所有buff）
+        UpdateAttributes();
 
         HPUIShow();
     }
@@ -125,8 +129,7 @@ public class Character : MonoBehaviour
                 new List<Character> { this, nearestEnemy });
         }
     }
-
-
+    
     public void Defend(int damage)
     {
         if (isDead)
@@ -165,53 +168,90 @@ public class Character : MonoBehaviour
     {
         currentCell.characterOn = null;
     }
-}
 
-
-public class AttributeRecord
-{
-    public List<(string, int)> attributeRecords = new List<(string, int)>();
-    public bool isDirty = true;
-}
-
-public class AttributeManager
-{
-    public Dictionary<string, AttributeRecord> attributeDic;
-
-    public void Add(string name, string sorce, int value)
+    /// <summary>
+    /// 更新角色属性（根据AttributeManager计算最终值）
+    /// </summary>
+    public void UpdateAttributes()
     {
-        if (!attributeDic.TryGetValue(name, out AttributeRecord list))
+        // 更新攻击力
+        if (attributeManager != null)
         {
-            list = new AttributeRecord();
-            attributeDic.Add(name, list);
-        }
-
-        list.attributeRecords.Add((sorce, value));
-    }
-
-    public int GetFinalValue(int baseValue, string name)
-    {
-        var attributeRecords = attributeDic[name];
-        int finalValue = baseValue;
-        foreach (var (source,value) in attributeRecords.attributeRecords)
-        {
-            finalValue += value;
-        }
-        return finalValue;
-    }
-
-    public void Remove(string name, string sorce)
-    {
-        var attributeRecords = attributeDic[name];
-        for (int i = 0; i < attributeRecords.attributeRecords.Count; i++)
-        {
-            var record = attributeRecords.attributeRecords[i];
-            if (record.Item1 == sorce)
+            attack = attributeManager.GetFinalValue(data.Attack, "Attack");
+            defence = attributeManager.GetFinalValue(data.Defend, "Defence");
+            MaxHP = attributeManager.GetFinalValue(data.MaxHP, "MaxHP");
+            
+            // 更新移动间隔（如果有加成）
+            if (attributeManager.HasAttribute("MoveInterval"))
             {
-                attributeRecords.attributeRecords.RemoveAt(i);
-                return;
+                // MoveInterval的单位是毫秒（int），需要转换为秒（float）
+                int moveBonusMs = attributeManager.GetFinalValue(0, "MoveInterval");
+                moveInterval = data.MoveInterval + (moveBonusMs / 1000f);
+                moveIntervalFrame = (int)(moveInterval * Const.ServerFrame);
+            }
+            else
+            {
+                moveInterval = data.MoveInterval;
+                moveIntervalFrame = (int)(moveInterval * Const.ServerFrame);
+            }
+            
+            // 更新攻击间隔（如果有加成）
+            if (attributeManager.HasAttribute("AttackInterval"))
+            {
+                int attackBonusMs = attributeManager.GetFinalValue(0, "AttackInterval");
+                attackInterval = data.AttackInterval + (attackBonusMs / 1000f);
+                attackIntervalFrame = (int)(attackInterval * Const.ServerFrame);
+            }
+            else
+            {
+                attackInterval = data.AttackInterval;
+                attackIntervalFrame = (int)(attackInterval * Const.ServerFrame);
+            }
+            
+            // 如果最大生命值变化，按比例调整当前生命值
+            if (MaxHP != data.MaxHP)
+            {
+                float hpRatio = data.MaxHP > 0 ? (float)HP / data.MaxHP : 1f;
+                HP = Mathf.RoundToInt(MaxHP * hpRatio);
+                HP = Mathf.Clamp(HP, 0, MaxHP);
             }
         }
+        else
+        {
+            // 如果没有AttributeManager，使用基础值
+            attack = data.Attack;
+            defence = data.Defend;
+            MaxHP = data.MaxHP;
+            moveInterval = data.MoveInterval;
+            attackInterval = data.AttackInterval;
+        }
     }
-    
+
+    /// <summary>
+    /// 获取属性的基础值（用于UI显示）
+    /// </summary>
+    public int GetBaseAttributeValue(string attributeName)
+    {
+        if (data == null)
+        {
+            return 0;
+        }
+
+        switch (attributeName)
+        {
+            case "Attack":
+                return data.Attack;
+            case "Defence":
+                return data.Defend;
+            case "MaxHP":
+                return data.MaxHP;
+            case "MoveInterval":
+                return (int)(data.MoveInterval * 1000); // 转换为毫秒
+            case "AttackInterval":
+                return (int)(data.AttackInterval * 1000); // 转换为毫秒
+            default:
+                return 0;
+        }
+    }
 }
+

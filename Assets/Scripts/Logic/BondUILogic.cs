@@ -5,6 +5,6 @@ public class BondUILogic
 {
     public void ChangeCharacter(Dictionary<BondType, int> myActiveBonds, Dictionary<BondType, int> enemyActiveBonds)
     {
-        Core.UIMgr.bondShow.UpdateBondList(myActiveBonds,enemyActiveBonds);
+        Core.UIMgr.GetUI<BondShowWin>().UpdateBondList(myActiveBonds,enemyActiveBonds);
     }
 }

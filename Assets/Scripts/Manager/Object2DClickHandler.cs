@@ -14,6 +14,8 @@ public class Object2DClickHandler
     private Vector3 originalPos;
     private bool isDragging = false;
 
+    private Character bondWinShowCharacter;
+
     /// <summary>
     /// 获取鼠标位置下的所有碰撞体
     /// </summary>
@@ -101,6 +103,14 @@ public class Object2DClickHandler
         );
     }
 
+    enum PlaceState
+    {
+        Fail,//没有目标格子｜目标位置上是敌方格子  -> 回到之前格子 -> 无事发生
+        SamePlace,//放到同一个格子上了 -> 判定为点击 -> 角色预览
+        SwapPlace,//目标位置有自己的角色  -> 交换位置  ->  
+        NewPlace,//空位置         -> 到达位置        ->
+    }
+    
     /// <summary>
     /// 处理鼠标抬起：尝试放置 Character 到目标位置
     /// </summary>
@@ -109,8 +119,8 @@ public class Object2DClickHandler
         if (draggingCharacter == null) return;
 
         var (hitCount, hits) = GetHit();
-        bool isOk = false;
-
+        PlaceState state = PlaceState.Fail;
+        BaseCell targetCell = null;
         // 查找可以放置的 Map 单元格
         for (int i = 0; i < hitCount; i++)
         {
@@ -119,24 +129,52 @@ public class Object2DClickHandler
                 var cell = hits[i].collider.gameObject;
                 if (cell.CompareTag("Map"))
                 {
-                    var baseCell = cell.GetComponent<BaseCell>();
-                    if (baseCell != null && baseCell.characterOn == null)
+                    targetCell = cell.GetComponent<BaseCell>();
+                    if ( targetCell.characterOn == null)
                     {
-                        // 找到有效的放置位置
-                        isOk = true;
-                        PlaceCharacter(draggingCharacter, baseCell);
-                        break;
+                        state = PlaceState.NewPlace;
+                    }
+                    else if(targetCell.characterOn == draggingCharacter)
+                    {
+                        state = PlaceState.SamePlace;
+                    }
+                    else if(targetCell.characterOn.isMine == draggingCharacter.isMine)
+                    {
+                        state = PlaceState.SwapPlace;
                     }
                 }
             }
         }
 
-        // 如果放置失败，返回原位置
-        if (!isOk)
+        switch (state)
         {
-            draggingCharacter.transform.DOMove(originalPos, 0.3f);
+            case PlaceState.Fail:
+                draggingCharacter.transform.DOMove(originalPos, 0.3f);
+                break;
+            case PlaceState.SamePlace:
+                CharacterClickWin ins = Core.UIMgr.GetUI<CharacterClickWin>();
+                if (ins.isSame(draggingCharacter))
+                {
+                    ins.visible = !ins.visible;
+                    if (ins.visible)
+                    {
+                        ins.ShowContent(draggingCharacter,draggingCharacter.attributeManager);
+                    }
+                }
+                else
+                {
+                    ins.visible = true;
+                    ins.ShowContent(draggingCharacter,draggingCharacter.attributeManager);
+                }
+                break;
+            case PlaceState.SwapPlace:
+                var targetCharacter = targetCell.characterOn;
+                SwapCharacter(draggingCharacter, targetCharacter);
+                break;
+            case PlaceState.NewPlace:
+                PlaceCharacter(draggingCharacter, targetCell);
+                break;
         }
-
         // 结束拖动
         EndDrag();
     }
@@ -153,7 +191,7 @@ public class Object2DClickHandler
     }
 
     /// <summary>
-    /// 放置 Character 到目标单元格
+    /// 放置 Character 到目标单元格,目标单元格上如果有目标需要额外处理
     /// </summary>
     private void PlaceCharacter(Character character, BaseCell targetCell)
     {
@@ -175,9 +213,39 @@ public class Object2DClickHandler
         bool isHex = targetCell is HexCell;
         if (wasHex != isHex)
         {
-            Core.CharacterMgr.ChangeCharacter(character, isHex);
-            Core.bondMgr.ChangeCharacter(character, isHex);
+            ChangeCharacterList(character, isHex);
+            
         }
+    }
+
+
+    private void SwapCharacter(Character character, Character otherCharacter)
+    {
+        BaseCell  cell = character.currentCell;
+        BaseCell  otherCell = otherCharacter.currentCell;
+        
+        character.currentCell = otherCell;
+        otherCharacter.currentCell = cell;
+        cell.characterOn = otherCharacter;
+        otherCell.characterOn = character;
+        
+        character.transform.position = otherCell.transform.position;
+        otherCharacter.transform.position = cell.transform.position;
+        
+        bool wasHex = cell is HexCell;
+        bool wasHex1 = otherCell is HexCell;
+
+        if (wasHex1 != wasHex)
+        {
+            ChangeCharacterList(character, wasHex1);
+            ChangeCharacterList( otherCharacter, wasHex);
+        }
+    }
+
+    private void ChangeCharacterList(Character character,bool isHex)
+    {
+        Core.CharacterMgr.ChangeCharacter(character, isHex);
+        Core.bondMgr.ChangeCharacter(character, isHex);
     }
 
     /// <summary>

@@ -92,38 +92,32 @@
             var enemyActiveBonds = GetEnemyActiveBonds();
 
             List<Character> battleCharacters = Core.CharacterMgr.GetBattleCharacters();
-            //重新算羁绊
+            
+            // 重新计算羁绊 - 先清除所有角色的羁绊buff
             foreach (var battleCharacter in battleCharacters)
             {
-                battleCharacter.attributeManager = new AttributeManager();
-                
+                if (battleCharacter.attributeManager == null)
+                {
+                    battleCharacter.attributeManager = new AttributeManager();
+                }
+                else
+                {
+                    // 移除所有羁绊来源的属性
+                    battleCharacter.attributeManager.RemoveBySourcePrefix("羁绊");
+                }
             }
 
-            foreach (var kv in currentBonds)
-            {
-                BondData bondData = Core.dataMgr.BondData()[kv.Key];
-                int lay = -1;
-                foreach (var level in bondData.Level )
-                {
-                    if (kv.Value.Count >= level)
-                    {
-                        lay = level;
-                    }
-                }
+            // 应用我方羁绊
+            ApplyBondBuffs(currentBonds, battleCharacters);
 
-                if (lay != -1)
-                {
-                    foreach (var _character in kv.Value)
-                    {
-                        _character.attributeManager.Add(kv.Key.ToString(),"羁绊",lay);
-                    }
-                }
-
-                 
-                
-            }
-
+            // 应用敌方羁绊
+            ApplyBondBuffs(currentEnemyBonds, battleCharacters);
             
+            // 更新所有角色的属性
+            foreach (var battleCharacter in battleCharacters)
+            {
+                battleCharacter.UpdateAttributes();
+            }
 
            
             Core.LogicMgr.BondUILogic.ChangeCharacter(myActiveBonds,enemyActiveBonds);
@@ -149,6 +143,92 @@
             }
             return activeBonds;
         }
-        
-        
+
+        /// <summary>
+        /// 应用羁绊Buff到角色列表
+        /// </summary>
+        private void ApplyBondBuffs(Dictionary<BondType, List<Character>> bonds, List<Character> allBattleCharacters)
+        {
+            foreach (var kv in bonds)
+            {
+                BondType bondType = kv.Key;
+                List<Character> characters = kv.Value;
+                
+                if (characters == null || characters.Count == 0)
+                {
+                    continue;
+                }
+
+                BondData bondData = Core.dataMgr.BondData()[bondType];
+                if (bondData == null)
+                {
+                    continue;
+                }
+
+                // 计算羁绊等级（找到满足条件的最高等级）
+                int bondLevel = GetBondLevel(bondData, characters.Count);
+
+                if (bondLevel > 0)
+                {
+                    // 为每个角色添加羁绊buff
+                    foreach (var character in characters)
+                    {
+                        if (character == null || character.isDead || character.attributeManager == null)
+                        {
+                            continue;
+                        }
+
+                        // 根据羁绊类型添加对应的属性加成
+                        string sourceName = $"羁绊_{bondData.Name}_Lv{bondLevel}";
+                        
+                        switch (bondType)
+                        {
+                            case BondType.Attack:
+                                int attackBonus = BondValueConfig.GetAttackBonus(bondLevel);
+                                character.attributeManager.Add("Attack", sourceName, attackBonus);
+                                break;
+                            case BondType.Defend:
+                                int defenceBonus = BondValueConfig.GetDefenceBonus(bondLevel);
+                                character.attributeManager.Add("Defence", sourceName, defenceBonus);
+                                break;
+                            case BondType.HP:
+                                int hpBonus = BondValueConfig.GetHPBonus(bondLevel);
+                                character.attributeManager.Add("MaxHP", sourceName, hpBonus);
+                                break;
+                            case BondType.Move:
+                                int moveBonus = BondValueConfig.GetMoveSpeedBonus(bondLevel);
+                                character.attributeManager.Add("MoveInterval", sourceName, moveBonus);
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 根据羁绊数量和配置确定羁绊等级
+        /// </summary>
+        private int GetBondLevel(BondData bondData, int bondCount)
+        {
+            if (bondData == null || bondData.Level == null || bondData.Level.Count == 0)
+            {
+                return 0;
+            }
+
+            // 找到满足条件的最高等级
+            int maxLevel = 0;
+            for (int i = 0; i < bondData.Level.Count; i++)
+            {
+                if (bondCount >= bondData.Level[i])
+                {
+                    maxLevel = i + 1; // 等级从1开始
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return maxLevel;
+        }
     }

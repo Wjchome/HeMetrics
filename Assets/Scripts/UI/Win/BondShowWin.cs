@@ -4,7 +4,7 @@ using System.Text;
 using FairyGUI;
 using UnityEngine;
 
-public class BondShowWin : GComponent
+public class BondShowWin : GComponent, IUIComponent
 {
     //  private GComponent ui;
     private GList list;
@@ -47,7 +47,7 @@ public class BondShowWin : GComponent
         int currentCount = myActiveBonds.TryGetValue(bondType, out int count) ? count : 0;
         BondData bondData = Core.dataMgr.BondData()[bondType];
         StringBuilder sb = new StringBuilder();
-        foreach (var level in  bondData.Level)
+        foreach (var level in bondData.Level)
         {
             sb.Append(level);
             if (level > currentCount)
@@ -55,69 +55,51 @@ public class BondShowWin : GComponent
                 currentCount = level;
                 break;
             }
+
             sb.Append("/");
         }
-        
-        
+
+
         // 获取羁绊名称
-        string bondName = GetBondName(bondType);
+        string bondName = Core.dataMgr.BondData()[bondType].Name;
 
         GTextField nameText = item.asCom.GetChild("Txt_name") as GTextField;
         GTextField countText = item.asCom.GetChild("Txt_count") as GTextField;
         GTextField levelsText = item.asCom.GetChild("Txt_levels") as GTextField;
-
-        nameText.text = bondName;
-        countText.text = currentCount .ToString();
-        levelsText.text = sb.ToString();
-
-    }
-
-    private void RenderEnemyBondItem(int index, GObject item)
-    {
-        BondType bondType = enemyActiveBondList[index];
-        int currentCount = enemyActiveBonds.TryGetValue(bondType, out int count) ? count : 0;
-        
-        string bondName = GetBondName(bondType);
-        BondData bondData = Core.dataMgr.BondData()[bondType];
-        StringBuilder sb = new StringBuilder();
-        foreach (var level in  bondData.Level)
-        {
-            sb.Append(level);
-            if (level > currentCount)
-            {
-                currentCount = level;
-                break;
-            }
-            sb.Append("/");
-        }
-
-        GTextField nameText = item.asCom.GetChild("Txt_name") as GTextField;
-        GTextField countText = item.asCom.GetChild("Txt_count") as GTextField;
-        GTextField levelsText = item.asCom.GetChild("Txt_levels") as GTextField;
-        
 
         nameText.text = bondName;
         countText.text = currentCount.ToString();
         levelsText.text = sb.ToString();
     }
 
-    /// <summary>
-    /// 获取羁绊名称
-    /// </summary>
-    private string GetBondName(BondType bondType)
+    private void RenderEnemyBondItem(int index, GObject item)
     {
-        switch (bondType)
+        BondType bondType = enemyActiveBondList[index];
+        int currentCount = enemyActiveBonds.TryGetValue(bondType, out int count) ? count : 0;
+
+        BondData bondData = Core.dataMgr.BondData()[bondType];
+        StringBuilder sb = new StringBuilder();
+        foreach (var level in bondData.Level)
         {
-            case BondType.Attack:
-                return "攻击";
-            case BondType.Defend:
-                return "防御";
-            case BondType.Move:
-                return "移动";
-            case BondType.HP:
-                return "生命";
-            default:
-                return bondType.ToString();
+            sb.Append(level);
+            if (level > currentCount)
+            {
+                currentCount = level;
+                break;
+            }
+
+            sb.Append("/");
         }
+
+        GTextField nameText = item.asCom.GetChild("Txt_name") as GTextField;
+        GTextField countText = item.asCom.GetChild("Txt_count") as GTextField;
+        GTextField levelsText = item.asCom.GetChild("Txt_levels") as GTextField;
+
+
+        nameText.text = bondData.Name;
+        countText.text = currentCount.ToString();
+        levelsText.text = sb.ToString();
     }
+
+
 }

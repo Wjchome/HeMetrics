@@ -10,7 +10,7 @@ public class MeleeAttackBehavior : IAttackBehavior
     {
         if (target != null && !target.isDead)
         {
-            target.Defend(character.attack);
+            target.Defend(character.attributeManager.GetFinalValue(character.attack, "Attack"));
         }
     }
     

@@ -1,109 +1,80 @@
 using FairyGUI;
 using UnityEngine;
+using System.Collections.Generic;
 
-public class UIManager:MonoBehaviour
+public class UIManager : MonoBehaviour
 {
-    public BondShowWin bondShow;
-    
-    // UI包的路径（相对于Resources文件夹，或者Assets路径）
-    public string bondUIPackagePath = "Assets/FGUI/HeMetrics";  // 根据你的实际路径修改
-    
-    // UI包的名称（FairyGUI编辑器中设置的包名）
-    public string bondUIPackageName = "HeMetrics";  // 根据你的实际包名修改
-    
-    // UI组件的名称（FairyGUI编辑器中设置的组件名）
-    public string bondUIComponentName = "BondShowWin";
-    
+    // 存储实现IUIComponent接口的UI实例（类型安全）
+    private Dictionary<System.Type, IUIComponent> uiInstances = new Dictionary<System.Type, IUIComponent>();
+
+    // UI包配置（保持不变）
+    public string bondUIPackagePath = "Assets/FGUI/HeMetrics";
+    public string bondUIPackageName = "HeMetrics";
+
+    // UI组件配置（简化为名称数组，或保留类型但约束为IUIComponent）
+    public (string nameInFGUI, System.Type type)[] bondUIComponentName =
+    {
+        ("BondShowWin", typeof(BondShowWin)), 
+        ("CharacterClickWin", typeof(CharacterClickWin))
+    };
+
     public void Init()
     {
-        // 方法1：直接使用 AddPackage + CreateObject(userClass) - 推荐方式
         CreateBondUIWithUserClass();
-        
-        // 方法2：先注册扩展，再创建（如果方法1不行，可以用这个）
-        // CreateBondUIWithExtension();
     }
-    
-    /// <summary>
-    /// 方法1：直接指定用户类创建（推荐）
-    /// </summary>
+
     private void CreateBondUIWithUserClass()
     {
-        // 1. 加载UI包（如果还没加载）
+        // 加载UI包（保持不变）
         UIPackage package = UIPackage.GetByName(bondUIPackageName);
         if (package == null)
         {
-            // 包还没加载，需要先加载
-            // 路径可以是相对于Resources的路径，或者Assets路径（仅编辑器）
             package = UIPackage.AddPackage(bondUIPackagePath);
             if (package == null)
             {
-                Debug.LogError($"Failed to load UI package from path: {bondUIPackagePath}");
+                Debug.LogError($"Failed to load UI package: {bondUIPackagePath}");
                 return;
             }
         }
-        
-        // 2. 直接创建自定义类的对象（关键：传入 typeof(BondShowWin)）
-        GObject obj = package.CreateObject(bondUIComponentName, typeof(BondShowWin));
-        if (obj == null)
+
+        foreach (var (nameInFGUI, type) in bondUIComponentName)
         {
-            Debug.LogError($"Failed to create UI component: {bondUIComponentName}");
-            return;
+            // 1. 创建UI组件实例
+            GObject obj = package.CreateObject(nameInFGUI, type);
+            if (obj == null)
+            {
+                Debug.LogError($"Failed to create UI component: {nameInFGUI}");
+                continue;
+            }
+
+            // 2. 转换为IUIComponent接口类型（类型安全）
+            if (obj is IUIComponent uiComponent)
+            {
+                // 3. 直接调用Init方法（无反射，高性能）
+                uiComponent.Init();
+
+                // 4. 存储实例（接口类型，可统一管理）
+                uiInstances[type] = uiComponent;
+
+                // 5. 添加到根节点显示（转换为GComponent）
+                if (uiComponent is GComponent component)
+                {
+                    GRoot.inst.AddChild(component);
+                }
+
+                Debug.Log($"Successfully initialized UI: {nameInFGUI}");
+            }
+            else
+            {
+                Debug.LogError($"UI component {nameInFGUI} does not implement IUIComponent!");
+            }
         }
-        
-        // 3. 转换为自定义类型
-        bondShow = obj as BondShowWin;
-        if (bondShow == null)
-        {
-            Debug.LogError($"Created object is not BondShowWin type. Got: {obj.GetType().Name}");
-            return;
-        }
-        
-        // 4. 初始化（必须在对象完全构造后调用）
-        bondShow.Init();
-        
-        // 5. 添加到根节点显示
-        GRoot.inst.AddChild(bondShow);
+    }
+
+    // 泛型获取方法（类型安全，直接返回目标类型）
+    public T GetUI<T>() where T : class, IUIComponent
+    {
+        return (T)uiInstances[typeof(T)];
     }
     
-    /// <summary>
-    /// 方法2：先注册扩展，再创建（备选方案）
-    /// </summary>
-    private void CreateBondUIWithExtension()
-    {
-        // 1. 加载UI包
-        UIPackage package = UIPackage.GetByName(bondUIPackageName);
-        if (package == null)
-        {
-            package = UIPackage.AddPackage(bondUIPackagePath);
-            if (package == null)
-            {
-                Debug.LogError($"Failed to load UI package from path: {bondUIPackagePath}");
-                return;
-            }
-        }
-        
-        // 2. 注册扩展（格式: "ui://包名/组件名"）
-        string url = $"ui://{bondUIPackageName}/{bondUIComponentName}";
-        UIObjectFactory.SetPackageItemExtension(url, typeof(BondShowWin));
-        
-        // 3. 创建对象（会自动使用注册的扩展类）
-        GObject obj = package.CreateObject(bondUIComponentName);
-        if (obj == null)
-        {
-            Debug.LogError($"Failed to create UI component: {bondUIComponentName}");
-            return;
-        }
-        
-        // 4. 转换为自定义类型
-        bondShow = obj as BondShowWin;
-        if (bondShow == null)
-        {
-            Debug.LogError($"Created object is not BondShowWin type. Got: {obj.GetType().Name}");
-            return;
-        }
-        
-        // 5. 添加到根节点显示
-        GRoot.inst.AddChild(bondShow);
-    }
 }
-
