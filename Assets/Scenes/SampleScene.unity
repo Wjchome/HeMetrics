@@ -491,7 +491,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bondUIPackagePath: UI/HeMetrics
   bondUIPackageName: HeMetrics
-  bondUIComponentName: BondShowWin
 --- !u!114 &1173355349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,6 +505,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverHost: 127.0.0.1
   serverPort: 1024
+  keepAliveInterval: 2
   serverTimer: 0
 --- !u!1 &1712598211
 GameObject:
@@ -573,9 +573,9 @@ Camera:
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
-  m_TargetEye: 0
+  m_TargetEye: 3
   m_HDR: 0
-  m_AllowMSAA: 0
+  m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
@@ -649,7 +649,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1839439256}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 19.5, y: 7.9, z: 0}
   m_LocalScale: {x: 0.009259259, y: 0.009259259, z: 0.009259259}
   m_ConstrainProportionsScale: 0
   m_Children: []

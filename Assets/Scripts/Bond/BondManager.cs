@@ -91,10 +91,7 @@ public class BondManager : MonoBehaviour
                 RemoveBond(bondType, character, character.isMine);
             }
         }
-
-        // 获取当前激活的羁绊信息
-        var myActiveBonds = GetMyActiveBonds();
-        var enemyActiveBonds = GetEnemyActiveBonds();
+        
 
         List<Character> battleCharacters = Core.CharacterMgr.GetBattleCharacters();
 
@@ -117,32 +114,11 @@ public class BondManager : MonoBehaviour
         }
 
 
-        Core.LogicMgr.BondUILogic.ChangeCharacter(myActiveBonds, enemyActiveBonds);
+        Core.LogicMgr.BondUILogic.ChangeCharacter(currentBonds, currentEnemyBonds);
     }
 
 
-    public Dictionary<BondType, int> GetMyActiveBonds()
-    {
-        Dictionary<BondType, int> activeBonds = new Dictionary<BondType, int>();
-        foreach (var kvp in currentBonds)
-        {
-            activeBonds[kvp.Key] = kvp.Value.Count;
-        }
-
-        return activeBonds;
-    }
-
-    public Dictionary<BondType, int> GetEnemyActiveBonds()
-    {
-        Dictionary<BondType, int> activeBonds = new Dictionary<BondType, int>();
-        foreach (var kvp in currentEnemyBonds)
-        {
-            activeBonds[kvp.Key] = kvp.Value.Count;
-        }
-
-        return activeBonds;
-    }
-
+ 
     /// <summary>
     /// 应用羁绊Buff到角色列表（使用BondData.BuffList）
     /// </summary>

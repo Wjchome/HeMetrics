@@ -9,23 +9,38 @@ public class BondShowWin : GComponent, IUIComponent
     //  private GComponent ui;
     private GList list;
     private GList list1;
+    private GList characterList;
 
-    private Dictionary<BondType, int> myActiveBonds = new Dictionary<BondType, int>(); // 缓存的激活羁绊数据
+    private Controller openCtrl;
+
+    private Dictionary<BondType, List<Character>> myActiveBonds = new Dictionary<BondType, List<Character>>(); // 缓存的激活羁绊数据
     private List<BondType> myActiveBondList = new List<BondType>(); // 缓存的激活羁绊数据
 
-    private Dictionary<BondType, int> enemyActiveBonds = new Dictionary<BondType, int>(); // 缓存的激活羁绊数据
+    private Dictionary<BondType, List<Character>> enemyActiveBonds = new Dictionary<BondType, List<Character>>(); // 缓存的激活羁绊数据
     private List<BondType> enemyActiveBondList = new List<BondType>(); // 缓存的激活羁绊数据
 
+    private List<Character> activeBondList = new List<Character>();
+    
     public void Init()
     {
         list = GetChild("List") as GList;
         list1 = GetChild("List1") as GList;
+        characterList = GetChild("List_character") as GList;
+        openCtrl = GetController("Ctrl_open");
 
-        list.itemRenderer = RenderMyBondItem;
-        list1.itemRenderer = RenderEnemyBondItem;
+        list.itemRenderer = MyBondItemRender;
+        list1.itemRenderer = EnemyBondItemRender;
+        
+        characterList.itemRenderer = CharacterItemRenderer;
     }
 
-    public void UpdateBondList(Dictionary<BondType, int> myActiveBonds, Dictionary<BondType, int> enemyActiveBonds)
+    private void CharacterItemRenderer(int index, GObject item)
+    {
+        GTextField characterNameText = item.asCom.GetChild("Txt_characterName") as GTextField;
+        characterNameText.text = activeBondList[index].data.Name;
+    }
+
+    public void UpdateBondList(Dictionary<BondType, List<Character>> myActiveBonds, Dictionary<BondType, List<Character>> enemyActiveBonds)
     {
         // 缓存激活的羁绊数据
         this.myActiveBonds = myActiveBonds;
@@ -38,13 +53,10 @@ public class BondShowWin : GComponent, IUIComponent
         list1.numItems = this.enemyActiveBonds.Count;
     }
 
-    /// <summary>
-    /// 渲染单个羁绊项
-    /// </summary>
-    private void RenderMyBondItem(int index, GObject item)
+    private void MyBondItemRender(int index, GObject item)
     {
         BondType bondType = myActiveBondList[index];
-        int currentCount = myActiveBonds.TryGetValue(bondType, out int count) ? count : 0;
+        int currentCount = myActiveBonds[bondType].Count;
         BondData bondData = Core.dataMgr.BondData()[bondType];
         StringBuilder sb = new StringBuilder();
         foreach (var level in bondData.Level)
@@ -52,7 +64,6 @@ public class BondShowWin : GComponent, IUIComponent
             sb.Append(level);
             if (level > currentCount)
             {
-                currentCount = level;
                 break;
             }
 
@@ -70,12 +81,20 @@ public class BondShowWin : GComponent, IUIComponent
         nameText.text = bondName;
         countText.text = currentCount.ToString();
         levelsText.text = sb.ToString();
+        
+        
+        item.onClick.Add(() =>
+        {
+            openCtrl.selectedIndex = 1;
+            activeBondList = myActiveBonds[bondType];
+            characterList.numItems = activeBondList.Count;
+        });
     }
 
-    private void RenderEnemyBondItem(int index, GObject item)
+    private void EnemyBondItemRender(int index, GObject item)
     {
         BondType bondType = enemyActiveBondList[index];
-        int currentCount = enemyActiveBonds.TryGetValue(bondType, out int count) ? count : 0;
+        int currentCount = enemyActiveBonds[bondType].Count;
 
         BondData bondData = Core.dataMgr.BondData()[bondType];
         StringBuilder sb = new StringBuilder();
@@ -84,7 +103,6 @@ public class BondShowWin : GComponent, IUIComponent
             sb.Append(level);
             if (level > currentCount)
             {
-                currentCount = level;
                 break;
             }
 
@@ -99,6 +117,13 @@ public class BondShowWin : GComponent, IUIComponent
         nameText.text = bondData.Name;
         countText.text = currentCount.ToString();
         levelsText.text = sb.ToString();
+        
+        item.onClick.Add(() =>
+        {
+            openCtrl.selectedIndex = 1;
+            activeBondList = enemyActiveBonds[bondType];
+            characterList.numItems = activeBondList.Count;
+        });
     }
 
 

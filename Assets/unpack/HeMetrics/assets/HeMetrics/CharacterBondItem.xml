@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="200,200">
   <displayList>
-    <richtext id="n0_u7c8" name="Txt_bondName" xy="13,26" size="177,143" font="Palatino" fontSize="30" color="#ffffff" align="center" vAlign="middle" autoSize="shrink" text="Attack"/>
+    <richtext id="n0_u7c8" name="Txt_bondName" xy="13,26" size="177,143" fontSize="30" color="#ffffff" align="center" vAlign="middle" autoSize="shrink" text="Attack"/>
   </displayList>
 </component>

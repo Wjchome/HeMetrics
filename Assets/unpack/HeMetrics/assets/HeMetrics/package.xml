@@ -7,6 +7,7 @@
     <component id="ngwt3" name="CharacterClickItem.xml" path="/"/>
     <component id="ngwt4" name="CharacterClickDetailItem.xml" path="/"/>
     <component id="u7c85" name="CharacterBondItem.xml" path="/"/>
+    <component id="fe036" name="BondCharacter.xml" path="/"/>
   </resources>
   <publish name=""/>
 </packageDescription>

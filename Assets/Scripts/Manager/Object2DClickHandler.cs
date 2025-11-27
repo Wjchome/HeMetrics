@@ -81,7 +81,6 @@ public class Object2DClickHandler
                 {
                     // 找到 Character，开始拖动
                     StartDrag(character);
-                    Debug.Log("Clicked Character: " + character.name);
                     break; // 只拖动第一个找到的 Character
                 }
             }

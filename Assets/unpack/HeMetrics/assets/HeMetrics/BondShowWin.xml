@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="1920,1080">
+  <controller name="Ctrl_open" pages="0,,1," selected="1"/>
   <displayList>
     <list id="n0_oeri" name="List" xy="15,51" size="120,768" overflow="scroll" defaultItem="ui://dbrqdbn1oeri1" autoClearItems="true">
       <item/>
@@ -10,6 +11,13 @@
     </list>
     <list id="n1_dbu6" name="List1" xy="1615,59" size="120,794" overflow="scroll" defaultItem="ui://dbrqdbn1oeri1" autoClearItems="true">
       <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+    </list>
+    <list id="n2_fe03" name="List_character" xy="404,18" size="969,205" layout="row" overflow="scroll" scroll="horizontal" defaultItem="ui://dbrqdbn1fe036" autoClearItems="true">
+      <gearDisplay controller="Ctrl_open" pages="1"/>
       <item/>
       <item/>
       <item/>
