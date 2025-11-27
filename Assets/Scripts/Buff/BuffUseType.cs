@@ -30,28 +30,29 @@ public static class BuffUseTypeConfig
     /// <summary>
     /// 获取属性名称
     /// </summary>
-    public static string GetAttributeName(int useType)
+    public static string GetAttributeName(BuffType useType)
     {
-        switch (useType)
-        {
-            case (int)BuffUseType.Attack:
-            case (int)BuffUseType.AttackPercent:
-                return "Attack";
-            case (int)BuffUseType.Defence:
-            case (int)BuffUseType.DefencePercent:
-                return "Defence";
-            case (int)BuffUseType.MaxHP:
-            case (int)BuffUseType.MaxHPPercent:
-                return "MaxHP";
-            case (int)BuffUseType.AttackInterval:
-            case (int)BuffUseType.AttackIntervalPercent:
-                return "AttackInterval";
-            case (int)BuffUseType.MoveInterval:
-            case (int)BuffUseType.MoveIntervalPercent:
-                return "MoveInterval";
-            default:
-                return "";
-        }
+        return "";
+        // switch (useType)
+        // {
+        //     case (int)BuffUseType.Attack:
+        //     case (int)BuffUseType.AttackPercent:
+        //         return "Attack";
+        //     case (int)BuffUseType.Defence:
+        //     case (int)BuffUseType.DefencePercent:
+        //         return "Defence";
+        //     case (int)BuffUseType.MaxHP:
+        //     case (int)BuffUseType.MaxHPPercent:
+        //         return "MaxHP";
+        //     case (int)BuffUseType.AttackInterval:
+        //     case (int)BuffUseType.AttackIntervalPercent:
+        //         return "AttackInterval";
+        //     case (int)BuffUseType.MoveInterval:
+        //     case (int)BuffUseType.MoveIntervalPercent:
+        //         return "MoveInterval";
+        //     default:
+        //         return "";
+        // }
     }
     
     /// <summary>

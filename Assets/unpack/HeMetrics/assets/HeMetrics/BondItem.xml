@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="120,120">
-  <controller name="Ctrl_select" pages="0,,1," selected="1"/>
+  <controller name="Ctrl_select" pages="0,,1," selected="0"/>
   <displayList>
-    <graph id="n4_dbu6" name="n4" xy="2,1" size="117,113" type="rect" fillColor="#ff666666">
+    <graph id="n4_dbu6" name="n4" xy="2,1" size="117,113" type="rect" fillColor="#ff999999">
       <gearColor controller="Ctrl_select" pages="0" values="#999999" default="#666666"/>
     </graph>
-    <text id="n1_oeri" name="Txt_name" xy="12,6" size="18,34" fontSize="24" color="#ffffff" autoClearText="true" text="3"/>
-    <text id="n2_owxj" name="Txt_count" xy="12,67" size="18,34" fontSize="24" color="#ffff00" text="3"/>
+    <text id="n1_oeri" name="Txt_name" xy="7,6" size="108,34" fontSize="24" color="#ffffff" autoSize="shrink" autoClearText="true" text="3"/>
+    <text id="n2_owxj" name="Txt_count" xy="10,67" size="18,34" fontSize="24" color="#ffff00" text="3"/>
     <text id="n3_dbu6" name="Txt_levels" xy="71,66" size="44,34" fontSize="24" color="#ffffff" autoClearText="true" text="311">
       <relation target="" sidePair="right-right"/>
     </text>

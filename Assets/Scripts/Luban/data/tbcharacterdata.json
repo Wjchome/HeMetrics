@@ -1,218 +1,93 @@
 [
   {
     "id": 1,
-    "name": "角色1",
+    "name": "数字代表一",
     "characterType": 0,
-    "desc": "角色1描述",
+    "desc": "数字家族中排行一",
     "MaxHP": 50,
     "attack": 3,
     "defend": 1,
-    "moveInterval": 1,
-    "attackInterval": 1,
+    "moveInterval": 2,
+    "attackInterval": 2,
+    "attackWindup": 0.5,
+    "attackRange": 1,
+    "bondList": [
+      0,
+      1,
+      3
+    ],
+    "icon_url": "num1"
+  },
+  {
+    "id": 2,
+    "name": "数字代表二",
+    "characterType": 0,
+    "desc": "数字家族中排行二",
+    "MaxHP": 50,
+    "attack": 3,
+    "defend": 1,
+    "moveInterval": 2,
+    "attackInterval": 2,
     "attackWindup": 0.5,
     "attackRange": 1,
     "bondList": [
       0,
       1
     ],
-    "icon_url": "解释 ZWSP (1)"
-  },
-  {
-    "id": 2,
-    "name": "角色2",
-    "characterType": 0,
-    "desc": "角色2描述",
-    "MaxHP": 50,
-    "attack": 3,
-    "defend": 1,
-    "moveInterval": 1,
-    "attackInterval": 1,
-    "attackWindup": 0.5,
-    "attackRange": 1,
-    "bondList": [
-      0,
-      2
-    ],
-    "icon_url": "解释 ZWSP (2)"
+    "icon_url": "num2"
   },
   {
     "id": 3,
-    "name": "角色3",
+    "name": "数字代表三",
     "characterType": 0,
-    "desc": "角色3描述",
-    "MaxHP": 51,
+    "desc": "数字家族中排行三",
+    "MaxHP": 50,
     "attack": 3,
     "defend": 1,
-    "moveInterval": 1,
-    "attackInterval": 1,
+    "moveInterval": 2,
+    "attackInterval": 2,
     "attackWindup": 0.5,
     "attackRange": 1,
     "bondList": [
       0,
-      3
+      2
     ],
-    "icon_url": "解释 ZWSP (3)"
+    "icon_url": "num3"
   },
   {
     "id": 4,
-    "name": "角色4",
+    "name": "数字代表四",
     "characterType": 0,
-    "desc": "角色4描述",
-    "MaxHP": 52,
+    "desc": "数字家族中排行四",
+    "MaxHP": 50,
     "attack": 3,
     "defend": 1,
-    "moveInterval": 1,
-    "attackInterval": 1,
+    "moveInterval": 2,
+    "attackInterval": 2,
     "attackWindup": 0.5,
     "attackRange": 1,
     "bondList": [
-      1,
-      2
+      0,
+      3
     ],
-    "icon_url": "解释 ZWSP (4)"
+    "icon_url": "num4"
   },
   {
     "id": 5,
-    "name": "角色5",
+    "name": "数字代表五",
     "characterType": 1,
-    "desc": "角色5描述",
-    "MaxHP": 53,
+    "desc": "数字家族中排行五",
+    "MaxHP": 50,
     "attack": 3,
     "defend": 1,
-    "moveInterval": 1,
-    "attackInterval": 1,
-    "attackWindup": 0.5,
-    "attackRange": 4,
-    "bondList": [
-      1,
-      3
-    ],
-    "icon_url": "解释 ZWSP (5)"
-  },
-  {
-    "id": 6,
-    "name": "角色6",
-    "characterType": 1,
-    "desc": "角色6描述",
-    "MaxHP": 54,
-    "attack": 3,
-    "defend": 1,
-    "moveInterval": 1,
-    "attackInterval": 1,
-    "attackWindup": 0.5,
-    "attackRange": 4,
-    "bondList": [
-      2,
-      3
-    ],
-    "icon_url": "解释 ZWSP (6)"
-  },
-  {
-    "id": 7,
-    "name": "角色7",
-    "characterType": 1,
-    "desc": "角色7描述",
-    "MaxHP": 55,
-    "attack": 3,
-    "defend": 1,
-    "moveInterval": 1,
-    "attackInterval": 1,
+    "moveInterval": 2,
+    "attackInterval": 2,
     "attackWindup": 0.5,
     "attackRange": 4,
     "bondList": [
       0,
-      1,
       2
     ],
-    "icon_url": "解释 ZWSP (7)"
-  },
-  {
-    "id": 8,
-    "name": "角色8",
-    "characterType": 1,
-    "desc": "角色8描述",
-    "MaxHP": 56,
-    "attack": 3,
-    "defend": 1,
-    "moveInterval": 1,
-    "attackInterval": 1,
-    "attackWindup": 0.5,
-    "attackRange": 4,
-    "bondList": [
-      0,
-      1,
-      3
-    ],
-    "icon_url": "解释 ZWSP (8)"
-  },
-  {
-    "id": 9,
-    "name": "角色9",
-    "characterType": 1,
-    "desc": "角色9描述",
-    "MaxHP": 57,
-    "attack": 3,
-    "defend": 1,
-    "moveInterval": 1,
-    "attackInterval": 1,
-    "attackWindup": 0.5,
-    "attackRange": 4,
-    "bondList": [
-      0,
-      2,
-      3
-    ],
-    "icon_url": "解释 ZWSP (9)"
-  },
-  {
-    "id": 10,
-    "name": "角色10",
-    "characterType": 2,
-    "desc": "角色10描述",
-    "MaxHP": 58,
-    "attack": 3,
-    "defend": 1,
-    "moveInterval": 1,
-    "attackInterval": 1,
-    "attackWindup": 0.5,
-    "attackRange": 4,
-    "bondList": [
-      0
-    ],
-    "icon_url": "解释 ZWSP (10)"
-  },
-  {
-    "id": 11,
-    "name": "角色11",
-    "characterType": 2,
-    "desc": "角色11描述",
-    "MaxHP": 59,
-    "attack": 3,
-    "defend": 1,
-    "moveInterval": 1,
-    "attackInterval": 1,
-    "attackWindup": 0.5,
-    "attackRange": 4,
-    "bondList": [
-      0
-    ],
-    "icon_url": "解释 ZWSP (10)"
-  },
-  {
-    "id": 12,
-    "name": "角色12",
-    "characterType": 2,
-    "desc": "角色12描述",
-    "MaxHP": 60,
-    "attack": 3,
-    "defend": 1,
-    "moveInterval": 1,
-    "attackInterval": 1,
-    "attackWindup": 0.5,
-    "attackRange": 4,
-    "bondList": [
-      0
-    ],
-    "icon_url": "解释 ZWSP (10)"
+    "icon_url": "num5"
   }
 ]

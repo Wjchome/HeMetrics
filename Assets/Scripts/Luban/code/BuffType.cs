@@ -10,24 +10,28 @@
 
 
  
-    public enum BondType
+    public enum BuffType
     {
         /// <summary>
-        /// 数字羁绊
+        /// 永久加攻击
         /// </summary>
-        NumBond = 0,
+        Attack = 0,
         /// <summary>
-        /// 万物伊始
+        /// 永久加防御
         /// </summary>
-        OneAndTwo = 1,
+        Defend = 1,
         /// <summary>
-        /// 独特数
+        /// 永久加移动
         /// </summary>
-        SomeOdd = 2,
+        Move = 2,
         /// <summary>
-        /// 开方数
+        /// 永久加血量
         /// </summary>
-        SomeSqrt = 3,
+        MaxHP = 3,
+        /// <summary>
+        /// parma1=1 代表攻速度增加1%
+        /// </summary>
+        AttackInternal = 4,
     }
 
  

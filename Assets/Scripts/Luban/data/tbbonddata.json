@@ -1,36 +1,50 @@
 [
   {
     "bond": 0,
-    "name": "攻击",
+    "name": "数字羁绊Name",
     "level": [
       2,
+      3,
       4,
-      6
+      5
     ],
     "desc": [
       "攻击1",
       "攻击2",
-      "攻击3"
+      "攻击3",
+      "攻击5"
     ],
     "buffList": [
       [
         {
-          "useType": 1,
+          "useType": 0,
           "Param1": 1,
           "Param2": 0
         }
       ],
       [
         {
-          "useType": 1,
+          "useType": 0,
           "Param1": 2,
           "Param2": 0
         }
       ],
       [
         {
-          "useType": 1,
-          "Param1": 2,
+          "useType": 0,
+          "Param1": 3,
+          "Param2": 0
+        }
+      ],
+      [
+        {
+          "useType": 0,
+          "Param1": 5,
+          "Param2": 0
+        },
+        {
+          "useType": 4,
+          "Param1": 10,
           "Param2": 0
         }
       ]
@@ -38,36 +52,18 @@
   },
   {
     "bond": 1,
-    "name": "防御",
+    "name": "万物伊始Name",
     "level": [
-      2,
-      4,
-      6
+      2
     ],
     "desc": [
-      "防御1",
-      "防御2",
-      "防御3"
+      "防御1"
     ],
     "buffList": [
       [
         {
           "useType": 1,
           "Param1": 1,
-          "Param2": 0
-        }
-      ],
-      [
-        {
-          "useType": 1,
-          "Param1": 2,
-          "Param2": 0
-        }
-      ],
-      [
-        {
-          "useType": 1,
-          "Param1": 2,
           "Param2": 0
         }
       ]
@@ -75,36 +71,18 @@
   },
   {
     "bond": 2,
-    "name": "移动",
+    "name": "独特数Name",
     "level": [
-      2,
-      4,
-      6
+      2
     ],
     "desc": [
-      "移动1",
-      "移动2",
-      "移动3"
+      "移动1"
     ],
     "buffList": [
       [
         {
-          "useType": 1,
+          "useType": 2,
           "Param1": 1,
-          "Param2": 0
-        }
-      ],
-      [
-        {
-          "useType": 1,
-          "Param1": 2,
-          "Param2": 0
-        }
-      ],
-      [
-        {
-          "useType": 1,
-          "Param1": 2,
           "Param2": 0
         }
       ]
@@ -112,36 +90,18 @@
   },
   {
     "bond": 3,
-    "name": "血量",
+    "name": "开方数Name",
     "level": [
-      2,
-      4,
-      6
+      2
     ],
     "desc": [
-      "血量1",
-      "血量2",
-      "血量3"
+      "血量1"
     ],
     "buffList": [
       [
         {
-          "useType": 1,
+          "useType": 3,
           "Param1": 1,
-          "Param2": 0
-        }
-      ],
-      [
-        {
-          "useType": 1,
-          "Param1": 2,
-          "Param2": 0
-        }
-      ],
-      [
-        {
-          "useType": 1,
-          "Param1": 2,
           "Param2": 0
         }
       ]

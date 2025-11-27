@@ -19,8 +19,9 @@ public class BondShowWin : GComponent, IUIComponent
     private Dictionary<BondType, List<int>> enemyActiveBonds = new Dictionary<BondType, List<int>>(); // 缓存的激活羁绊数据
     private List<BondType> enemyActiveBondList = new List<BondType>(); // 缓存的激活羁绊数据
 
+    private BondType clickBondType;
     private List<int> activeBondList = new List<int>();
-    
+
     public void Init()
     {
         list = GetChild("List") as GList;
@@ -28,20 +29,35 @@ public class BondShowWin : GComponent, IUIComponent
         characterList = GetChild("List_character") as GList;
         openCtrl = GetController("Ctrl_open");
 
-        
+
         list.itemRenderer = MyBondItemRender;
         list1.itemRenderer = EnemyBondItemRender;
-        
+
         characterList.itemRenderer = CharacterItemRenderer;
     }
 
     private void CharacterItemRenderer(int index, GObject item)
     {
+        
         GTextField characterNameText = item.asCom.GetChild("Txt_characterName") as GTextField;
-        characterNameText.text = Core.dataMgr.CharacterData()[activeBondList[index]].Name;
+        List<int> ids = Core.bondMgr.GetAllIdFromBond(clickBondType);
+     
+            characterNameText.text = Core.dataMgr.CharacterData()[ids[index]].Name;
+            
+            if (activeBondList.Contains(ids[index]))
+            {
+                characterNameText.color = Color.yellow;
+            }
+            else
+            {
+                characterNameText.color = Color.gray;
+
+            }
+        
     }
 
-    public void UpdateBondList(Dictionary<BondType, List<int>> myActiveBonds,Dictionary<BondType, List<int>> enemyActiveBonds)
+    public void UpdateBondList(Dictionary<BondType, List<int>> myActiveBonds,
+        Dictionary<BondType, List<int>> enemyActiveBonds)
     {
         // 缓存激活的羁绊数据
         this.myActiveBonds = myActiveBonds;
@@ -59,7 +75,7 @@ public class BondShowWin : GComponent, IUIComponent
         BondType bondType = myActiveBondList[index];
         int currentCount = myActiveBonds[bondType].Count;
         BondData bondData = Core.dataMgr.BondData()[bondType];
-        
+
         StringBuilder sb = new StringBuilder();
         foreach (var level in bondData.Level)
         {
@@ -68,20 +84,23 @@ public class BondShowWin : GComponent, IUIComponent
             {
                 break;
             }
+
             sb.Append("/");
         }
+
         BondItem bondItem = item as BondItem;
         bondItem.nameText.text = bondData.Name;
         bondItem.countText.text = currentCount.ToString();
         bondItem.levelsText.text = sb.ToString();
-        
+
         // 清除之前的点击事件，避免重复添加
         item.onClick.Clear();
         item.onClick.Add(() =>
         {
             openCtrl.selectedIndex = 1;
             activeBondList = myActiveBonds[bondType];
-            characterList.numItems = activeBondList.Count;
+            clickBondType = bondType;
+            characterList.numItems = Core.bondMgr.GetAllIdFromBond(clickBondType).Count;
         });
     }
 
@@ -92,31 +111,35 @@ public class BondShowWin : GComponent, IUIComponent
 
         BondData bondData = Core.dataMgr.BondData()[bondType];
         StringBuilder sb = new StringBuilder();
-        foreach (var level in bondData.Level)
+        for (int i = 0; i < bondData.Level.Count; i++)
         {
+            var level = bondData.Level[i];
             sb.Append(level);
             if (level > currentCount)
             {
                 break;
             }
-            sb.Append("/");
+            //最后一个特殊处理
+            if (i != bondData.Level.Count - 1)
+            {
+                sb.Append("/");
+            }
         }
 
         BondItem bondItem = item as BondItem;
         bondItem.nameText.text = bondData.Name;
         bondItem.countText.text = currentCount.ToString();
         bondItem.levelsText.text = sb.ToString();
-        
-        
+
+
         // 清除之前的点击事件，避免重复添加
         item.onClick.Clear();
         item.onClick.Add(() =>
         {
             openCtrl.selectedIndex = 1;
             activeBondList = enemyActiveBonds[bondType];
-            characterList.numItems = activeBondList.Count;
+            clickBondType = bondType;
+            characterList.numItems = Core.bondMgr.GetAllIdFromBond(clickBondType).Count;
         });
     }
-
-
 }

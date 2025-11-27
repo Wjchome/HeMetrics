@@ -23,17 +23,16 @@ public class StandManager : MonoBehaviour
             myStandCells.Add(Instantiate(standCellPrefab, Vector3.Lerp(
                 startPoint.position, endPoint.position, (float)i / standNum), Quaternion.identity, transform));
 
-            var data = Core.dataMgr.CharacterData()[i + 1];
             
             // 使用统一的Character预制体，攻击行为会根据CharacterType自动创建
             Character character = Instantiate(Core.I.characterPrefab, myStandCells[i].transform.position,
                 Quaternion.identity);
-            character.Init(i + 1);
+            character.Init(i%5 + 1);
         
             Core.CharacterMgr.AddStandCharacter(character);
             character.currentCell = myStandCells[i];
             myStandCells[i].characterOn = character;
-            character.isMine = i % 2 == 0;
+            character.isMine = i < 5;
             if (character.isMine)
                 character.GetComponent<Renderer>().material.color = new Color(1,1,1,0.5f);
             else

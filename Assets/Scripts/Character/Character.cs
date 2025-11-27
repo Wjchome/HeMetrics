@@ -57,6 +57,7 @@ public class Character : MonoBehaviour
     public bool isDead = false;
 
     public AttributeManager attributeManager;
+    public BuffManager buffManager;
 
     public SpriteRenderer spriteRenderer;
     public void Init(int id)
@@ -82,8 +83,9 @@ public class Character : MonoBehaviour
 
         attackWindupFrame = (int)(attackWindup * Const.ServerFrame);
 
-        // 初始化AttributeManager
+        // 初始化AttributeManager和BuffManager
         attributeManager = new AttributeManager();
+        buffManager = new BuffManager(this);
 
         // 根据角色类型创建对应的攻击行为
         attackBehavior = AttackBehaviorFactory.CreateAttackBehavior(data.CharacterType);
@@ -107,6 +109,7 @@ public class Character : MonoBehaviour
 
     public void UpdateFrame()
     {
+        buffManager.UpdateFrame();
         fsm.Update();
     }
 

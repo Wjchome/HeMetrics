@@ -16,7 +16,7 @@ public sealed partial class BuffData : Luban.BeanBase
 {
     public BuffData(JSONNode _buf) 
     {
-        { if(!_buf["useType"].IsNumber) { throw new SerializationException(); }  UseType = _buf["useType"]; }
+        { if(!_buf["useType"].IsNumber) { throw new SerializationException(); }  UseType = (BuffType)_buf["useType"].AsInt; }
         { if(!_buf["Param1"].IsNumber) { throw new SerializationException(); }  Param1 = _buf["Param1"]; }
         { if(!_buf["Param2"].IsNumber) { throw new SerializationException(); }  Param2 = _buf["Param2"]; }
     }
@@ -29,7 +29,7 @@ public sealed partial class BuffData : Luban.BeanBase
     /// <summary>
     /// 如何使用
     /// </summary>
-    public readonly int UseType;
+    public readonly BuffType UseType;
     /// <summary>
     /// 值1
     /// </summary>
