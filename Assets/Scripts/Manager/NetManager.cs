@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading;
@@ -10,6 +11,8 @@ using Google.Protobuf;
 /// </summary>
 public class NetManager : MonoBehaviour
 {
+    public bool isLocal = false;
+
     private TcpClient tcpClient; //tcp连接
     private NetworkStream stream; //写流
     private Thread receiveThread; //听线程
@@ -20,21 +23,21 @@ public class NetManager : MonoBehaviour
     private Queue<Action> actionQueue = new Queue<Action>();
 
 
-
     [Header("服务器配置")] public string serverHost = "127.0.0.1";
     public int serverPort = 1024;
 
-    [Header("心跳配置")] 
-    public float keepAliveInterval = 2f; // 心跳间隔（秒）
+    [Header("心跳配置")] public float keepAliveInterval = 2f; // 心跳间隔（秒）
 
     // 心跳相关常量（与Go服务器保持一致）
     private const uint InnerServiceModuleId = 1u << 31; // 2147483648
     private const uint KeepAliveRouterId = 1u << 31; // 2147483648
 
     public int serverTimer = 0;
+
     public void Init()
     {
-        Connect();
+        if (!isLocal)
+            Connect();
     }
 
     /// <summary>
@@ -64,7 +67,16 @@ public class NetManager : MonoBehaviour
         catch (Exception e)
         {
             Debug.LogError($"连接失败: {e.Message}");
+            StartCoroutine(test());
             isConnected = false;
+        }
+    }
+
+    IEnumerator test()
+    {
+        while (true)
+        {
+            yield return null;
         }
     }
 
@@ -80,7 +92,7 @@ public class NetManager : MonoBehaviour
     /// </summary>
     /// <typeparam name="TReq">请求消息类型（实现IMessage）</typeparam>
     /// <typeparam name="TRsp">响应消息类型（实现IMessage）</typeparam>
-    public void SendRequest(uint moduleId, uint routerId,byte[] messageBody, Action<byte[]> onResponse)
+    public void SendRequest(uint moduleId, uint routerId, byte[] messageBody, Action<byte[]> onResponse)
     {
         if (!isConnected)
         {
@@ -93,8 +105,8 @@ public class NetManager : MonoBehaviour
         uint reqId = reqIdCounter;
 
         // 2. 注册回调：将TRsp（IMessage）包装成Action<IMessage>存入字典
-        pendingRequests[reqId] = (rspMsg) =>onResponse(rspMsg);
-     
+        pendingRequests[reqId] = (rspMsg) => onResponse(rspMsg);
+
 
         // 3. 后续打包、发送逻辑不变
         byte[] packet = BuildReqPacket(moduleId, routerId, reqId, false, messageBody);
@@ -186,7 +198,7 @@ public class NetManager : MonoBehaviour
         return frame;
     }
 
-    
+
     /// <summary>
     /// 接收数据线程
     /// </summary>
@@ -308,7 +320,7 @@ public class NetManager : MonoBehaviour
             {
                 // 发送心跳包（空消息体，isOneWay=true，silent=true不输出日志）
                 SendEvent(InnerServiceModuleId, KeepAliveRouterId, new byte[0]);
-                
+
                 // 等待指定间隔
                 Thread.Sleep((int)(keepAliveInterval * 1000));
             }
@@ -318,6 +330,7 @@ public class NetManager : MonoBehaviour
                 {
                     Debug.LogWarning($"发送心跳失败: {e.Message}");
                 }
+
                 break;
             }
         }
@@ -360,11 +373,19 @@ public class NetManager : MonoBehaviour
 
     public void Update()
     {
-        while (actionQueue.Count > 0)
+        if (isLocal)
         {
             serverTimer++;
-            actionQueue.Dequeue()?.Invoke();
             Core.I.UpdateFrame();
+        }
+        else
+        {
+            while (actionQueue.Count > 0)
+            {
+                serverTimer++;
+                actionQueue.Dequeue()?.Invoke();
+                Core.I.UpdateFrame();
+            }
         }
     }
 }

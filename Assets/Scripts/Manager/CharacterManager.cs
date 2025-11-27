@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CharacterManager
 {
-    private List<Character> characters= new List<Character>();
     private List<Character> battleCharacters= new List<Character>();
     private List<Character> standCharacters= new List<Character>();
 

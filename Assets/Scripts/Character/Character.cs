@@ -104,11 +104,6 @@ public class Character : MonoBehaviour
         HPUIShow();
     }
 
-    public void Init(CharacterData data)
-    {
-        this.data = data;
-        Init(data.Id);
-    }
 
     public void UpdateFrame()
     {

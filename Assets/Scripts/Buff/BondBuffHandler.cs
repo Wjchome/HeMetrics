@@ -25,10 +25,15 @@ public static class BondBuffHandler
             return;
         }
         
-        var buffList = bondData.BuffList[bondLevel - 1];
+        List<BuffData> buffList = bondData.BuffList[bondLevel - 1];
         if (buffList == null || buffList.Count == 0)
         {
             return;
+        }
+
+        foreach (var buffData in buffList)
+        {
+            
         }
         
         // 获取角色基础属性值（用于百分比计算）
@@ -39,27 +44,13 @@ public static class BondBuffHandler
         int baseMoveInterval = (int)(character.data.MoveInterval * 1000); // 转换为毫秒
         
         // 应用每个Buff
-        foreach (var buffData in buffList)
+        foreach (BuffData buffData in buffList)
         {
             ApplySingleBuff(character, buffData, bondData.Name, bondLevel, 
                 baseAttack, baseDefence, baseMaxHP, baseAttackInterval, baseMoveInterval);
         }
     }
     
-    /// <summary>
-    /// 移除角色的羁绊Buff
-    /// </summary>
-    public static void RemoveBondBuffs(Character character, BondData bondData)
-    {
-        if (character == null || character.attributeManager == null || bondData == null)
-        {
-            return;
-        }
-        
-        // 移除所有该羁绊来源的Buff
-        string sourcePrefix = $"羁绊_{bondData.Name}";
-        character.attributeManager.RemoveBySourcePrefix(sourcePrefix);
-    }
     
     /// <summary>
     /// 应用单个Buff

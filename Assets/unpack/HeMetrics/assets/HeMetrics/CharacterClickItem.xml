@@ -2,7 +2,7 @@
 <component size="1500,100">
   <displayList>
     <richtext id="n1_ngwt" name="Txt_name" xy="29,31" size="102,49" fontSize="36" text="name"/>
-    <list id="n2_ngwt" name="List_show" xy="179,25" size="1174,60" layout="row" overflow="scroll" scroll="horizontal" defaultItem="ui://dbrqdbn1ngwt4" autoClearItems="true">
+    <list id="n2_ngwt" name="List_show" xy="167,6" size="1174,97" layout="row" overflow="scroll" scroll="horizontal" defaultItem="ui://dbrqdbn1ngwt4" autoClearItems="true">
       <item/>
       <item/>
       <item/>
