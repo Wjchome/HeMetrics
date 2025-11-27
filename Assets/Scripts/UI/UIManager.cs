@@ -11,11 +11,19 @@ public class UIManager : MonoBehaviour
     public string bondUIPackagePath = "Assets/FGUI/HeMetrics";
     public string bondUIPackageName = "HeMetrics";
 
+    public UIPackage package;
+
     // UI组件配置（简化为名称数组，或保留类型但约束为IUIComponent）
-    public (string nameInFGUI, System.Type type)[] bondUIComponentName =
+    public (string nameInFGUI, System.Type type)[] WinUIComponentName =
     {
         ("BondShowWin", typeof(BondShowWin)), 
         ("CharacterClickWin", typeof(CharacterClickWin))
+    };
+    
+    public (string nameInFGUI, System.Type type)[] ItemUIComponentName =
+    {
+        ("BondItem", typeof(BondItem)), 
+        ("CharacterClickItem", typeof(CharacterClickItem)), 
     };
 
     public void Init()
@@ -26,7 +34,7 @@ public class UIManager : MonoBehaviour
     private void CreateBondUIWithUserClass()
     {
         // 加载UI包（保持不变）
-        UIPackage package = UIPackage.GetByName(bondUIPackageName);
+        package = UIPackage.GetByName(bondUIPackageName);
         if (package == null)
         {
             package = UIPackage.AddPackage(bondUIPackagePath);
@@ -37,7 +45,18 @@ public class UIManager : MonoBehaviour
             }
         }
 
-        foreach (var (nameInFGUI, type) in bondUIComponentName)
+        foreach (var (nameInFGUI, type) in ItemUIComponentName)
+        {
+            // 注册自定义类（只需要注册一次）
+            // 格式：ui://包名/资源名
+            string bondItemURL = UIPackage.GetItemURL(Core.UIMgr.bondUIPackageName, nameInFGUI);
+            if (!string.IsNullOrEmpty(bondItemURL))
+            {
+                UIObjectFactory.SetPackageItemExtension(bondItemURL, type);
+            }
+        }
+
+        foreach (var (nameInFGUI, type) in WinUIComponentName)
         {
             // 1. 创建UI组件实例
             GObject obj = package.CreateObject(nameInFGUI, type);

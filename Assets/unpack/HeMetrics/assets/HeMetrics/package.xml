@@ -2,7 +2,7 @@
 <packageDescription id="dbrqdbn1">
   <resources>
     <component id="nerj0" name="BondShowWin.xml" path="/" exported="true"/>
-    <component id="oeri1" name="Bond.xml" path="/"/>
+    <component id="oeri1" name="BondItem.xml" path="/"/>
     <component id="ngwt2" name="CharacterClickWin.xml" path="/" exported="true"/>
     <component id="ngwt3" name="CharacterClickItem.xml" path="/"/>
     <component id="ngwt4" name="CharacterClickDetailItem.xml" path="/"/>

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -64,19 +65,16 @@ public class CharacterClickWin: GComponent,IUIComponent
         {
             return;
         }
-        
-        GTextField nameTxt = item.asCom.GetChild("Txt_name")as GTextField;
-        GList _showList = item.asCom.GetChild("List_show") as GList;
-        GTextField valueTxt = item.asCom.GetChild("Txt_value")as GTextField;
+        CharacterClickItem clickItem = item as CharacterClickItem;
         
         string attributeName = info.names[index];
         AttributeRecord attributeRecord = info.attributes[index];
         
         // 显示属性名称
-        nameTxt.text = GetAttributeDisplayName(attributeName);
+        clickItem.nameTxt.text = GetAttributeDisplayName(attributeName);
         
         // 设置子列表的渲染器（显示所有来源和值）
-        _showList.itemRenderer = (i, o) =>
+        clickItem.showList.itemRenderer = (i, o) =>
         {
             if (i < 0 || i >= attributeRecord.attributeRecords.Count)
             {
@@ -99,10 +97,10 @@ public class CharacterClickWin: GComponent,IUIComponent
         int finalValue = target.attributeManager.GetFinalValue(baseValue, attributeName);
         
         // 显示最终值（根据属性类型格式化）
-        valueTxt.text = FormatAttributeValue(attributeName, finalValue);
+        clickItem.valueTxt.text = FormatAttributeValue(attributeName, finalValue);
         
         // 设置子列表数量
-        _showList.numItems = attributeRecord.attributeRecords.Count;
+        clickItem.showList.numItems = attributeRecord.attributeRecords.Count;
     }
     
     /// <summary>

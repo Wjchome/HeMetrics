@@ -3,9 +3,16 @@ using UnityEngine;
 
 public class BondManager : MonoBehaviour
 {
+    //每种羁绊对应的角色id
     Dictionary<BondType, List<int>> bondsConfig = new Dictionary<BondType, List<int>>();
+
+    //现在的羁绊对应的棋盘上的角色
     Dictionary<BondType, List<Character>> currentBonds = new Dictionary<BondType, List<Character>>();
     Dictionary<BondType, List<Character>> currentEnemyBonds = new Dictionary<BondType, List<Character>>();
+
+    //现在的羁绊已经触发了几个,id是什么
+    Dictionary<BondType, List<int>> currentBondCount = new Dictionary<BondType, List<int>>();
+    Dictionary<BondType, List<int>> currentEnemyBondCount = new Dictionary<BondType, List<int>>();
 
     private void AddBondConfig(BondType bondType, int id)
     {
@@ -26,7 +33,17 @@ public class BondManager : MonoBehaviour
         }
     }
 
-    private void AddBond(BondType bondType, Character id, bool isMine)
+
+    public void Init()
+    {
+        foreach (var data in Core.dataMgr.CharacterData().DataList)
+        {
+            AddBondConfig(data.BondList, data.Id);
+        }
+    }
+
+
+    private void AddBond(BondType bondType, Character character, bool isMine)
     {
         Dictionary<BondType, List<Character>> foo = null;
         if (isMine)
@@ -44,10 +61,10 @@ public class BondManager : MonoBehaviour
             foo[bondType] = list;
         }
 
-        list.Add(id);
+        list.Add(character);
     }
 
-    private void RemoveBond(BondType bondType, Character id, bool isMine)
+    private void RemoveBond(BondType bondType, Character character, bool isMine)
     {
         Dictionary<BondType, List<Character>> foo = null;
         if (isMine)
@@ -59,24 +76,18 @@ public class BondManager : MonoBehaviour
             foo = currentEnemyBonds;
         }
 
-        foo[bondType].Remove(id);
+        foo[bondType].Remove(character);
         if (foo[bondType].Count == 0)
         {
             foo.Remove(bondType);
         }
     }
 
-    public void Init()
-    {
-        foreach (var data in Core.dataMgr.CharacterData().DataList)
-        {
-            AddBondConfig(data.BondList, data.Id);
-        }
-    }
 
-
+    //这个角色增加到棋盘上或者离开棋盘
     public void ChangeCharacter(Character character, bool isHex)
     {
+        //处理Bond->list<character>
         if (isHex)
         {
             foreach (var bondType in character.bondTypes)
@@ -91,41 +102,74 @@ public class BondManager : MonoBehaviour
                 RemoveBond(bondType, character, character.isMine);
             }
         }
-        
+        //处理Bond->list<int>  list<int>不重复,因为相同的角色不能算2个羁绊
+        foreach (var kv in currentBonds)
+        {
+            currentBondCount.Clear();
+            if (!currentBondCount.ContainsKey(kv.Key))
+            {
+                currentBondCount.Add(kv.Key, new List<int>());
+            }
+
+            foreach (var _character in kv.Value)
+            {
+                if (currentBondCount[kv.Key].Contains(_character.id))
+                {
+                }
+                else
+                {
+                    currentBondCount[kv.Key].Add(_character.id);
+                }
+            }
+        }
+        foreach (var kv in currentEnemyBonds)
+        {
+            currentEnemyBondCount.Clear();
+            if (!currentEnemyBondCount.ContainsKey(kv.Key))
+            {
+                currentEnemyBondCount.Add(kv.Key, new List<int>());
+            }
+
+            foreach (var _character in kv.Value)
+            {
+                if (currentEnemyBondCount[kv.Key].Contains(_character.id))
+                {
+                }
+                else
+                {
+                    currentEnemyBondCount[kv.Key].Add(_character.id);
+                }
+            }
+        }
 
         List<Character> battleCharacters = Core.CharacterMgr.GetBattleCharacters();
 
+        // 处理羁绊
         // 重新计算羁绊 - 先清除所有角色的羁绊buff
         foreach (var battleCharacter in battleCharacters)
         {
-          battleCharacter.attributeManager.RemoveBySourcePrefix("羁绊");
+            battleCharacter.attributeManager.RemoveBySourcePrefix("羁绊");
         }
-
-        // 应用我方羁绊
-        ApplyBondBuffsFromBuffList(currentBonds, battleCharacters);
-
-        // 应用敌方羁绊
-        ApplyBondBuffsFromBuffList(currentEnemyBonds, battleCharacters);
-
+        ApplyBondBuffsFromBuffList(currentBondCount, currentBonds,battleCharacters);
+        ApplyBondBuffsFromBuffList(currentEnemyBondCount, currentEnemyBonds,battleCharacters);
         // 更新所有角色的属性
         foreach (var battleCharacter in battleCharacters)
         {
             battleCharacter.UpdateAttributes();
         }
 
-
-        Core.LogicMgr.BondUILogic.ChangeCharacter(currentBonds, currentEnemyBonds);
+        //更新UI
+        Core.LogicMgr.BondUILogic.ChangeCharacter(currentBondCount, currentEnemyBondCount);
     }
 
 
- 
     /// <summary>
     /// 应用羁绊Buff到角色列表（使用BondData.BuffList）
     /// </summary>
-    private void ApplyBondBuffsFromBuffList(Dictionary<BondType, List<Character>> bonds,
+    private void ApplyBondBuffsFromBuffList(Dictionary<BondType, List<int>> bonds,Dictionary<BondType, List<Character>> bondCharacter,
         List<Character> allBattleCharacters)
     {
-        foreach (var kv in bonds)
+        foreach (var kv in bondCharacter)
         {
             BondType bondType = kv.Key;
             List<Character> characters = kv.Value;
@@ -142,7 +186,7 @@ public class BondManager : MonoBehaviour
             }
 
             // 计算羁绊等级（找到满足条件的最高等级）
-            int bondLevel = GetBondLevel(bondData, characters.Count);
+            int bondLevel = GetBondLevel(bondData,  bonds[bondType].Count);
 
             if (bondLevel > 0)
             {

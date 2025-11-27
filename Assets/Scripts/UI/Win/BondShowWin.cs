@@ -13,13 +13,13 @@ public class BondShowWin : GComponent, IUIComponent
 
     private Controller openCtrl;
 
-    private Dictionary<BondType, List<Character>> myActiveBonds = new Dictionary<BondType, List<Character>>(); // 缓存的激活羁绊数据
+    private Dictionary<BondType, List<int>> myActiveBonds = new Dictionary<BondType, List<int>>(); // 缓存的激活羁绊数据
     private List<BondType> myActiveBondList = new List<BondType>(); // 缓存的激活羁绊数据
 
-    private Dictionary<BondType, List<Character>> enemyActiveBonds = new Dictionary<BondType, List<Character>>(); // 缓存的激活羁绊数据
+    private Dictionary<BondType, List<int>> enemyActiveBonds = new Dictionary<BondType, List<int>>(); // 缓存的激活羁绊数据
     private List<BondType> enemyActiveBondList = new List<BondType>(); // 缓存的激活羁绊数据
 
-    private List<Character> activeBondList = new List<Character>();
+    private List<int> activeBondList = new List<int>();
     
     public void Init()
     {
@@ -28,6 +28,7 @@ public class BondShowWin : GComponent, IUIComponent
         characterList = GetChild("List_character") as GList;
         openCtrl = GetController("Ctrl_open");
 
+        
         list.itemRenderer = MyBondItemRender;
         list1.itemRenderer = EnemyBondItemRender;
         
@@ -37,10 +38,10 @@ public class BondShowWin : GComponent, IUIComponent
     private void CharacterItemRenderer(int index, GObject item)
     {
         GTextField characterNameText = item.asCom.GetChild("Txt_characterName") as GTextField;
-        characterNameText.text = activeBondList[index].data.Name;
+        characterNameText.text = Core.dataMgr.CharacterData()[activeBondList[index]].Name;
     }
 
-    public void UpdateBondList(Dictionary<BondType, List<Character>> myActiveBonds, Dictionary<BondType, List<Character>> enemyActiveBonds)
+    public void UpdateBondList(Dictionary<BondType, List<int>> myActiveBonds,Dictionary<BondType, List<int>> enemyActiveBonds)
     {
         // 缓存激活的羁绊数据
         this.myActiveBonds = myActiveBonds;
@@ -58,6 +59,7 @@ public class BondShowWin : GComponent, IUIComponent
         BondType bondType = myActiveBondList[index];
         int currentCount = myActiveBonds[bondType].Count;
         BondData bondData = Core.dataMgr.BondData()[bondType];
+        
         StringBuilder sb = new StringBuilder();
         foreach (var level in bondData.Level)
         {
@@ -66,23 +68,15 @@ public class BondShowWin : GComponent, IUIComponent
             {
                 break;
             }
-
             sb.Append("/");
         }
-
-
-        // 获取羁绊名称
-        string bondName = Core.dataMgr.BondData()[bondType].Name;
-
-        GTextField nameText = item.asCom.GetChild("Txt_name") as GTextField;
-        GTextField countText = item.asCom.GetChild("Txt_count") as GTextField;
-        GTextField levelsText = item.asCom.GetChild("Txt_levels") as GTextField;
-
-        nameText.text = bondName;
-        countText.text = currentCount.ToString();
-        levelsText.text = sb.ToString();
+        BondItem bondItem = item as BondItem;
+        bondItem.nameText.text = bondData.Name;
+        bondItem.countText.text = currentCount.ToString();
+        bondItem.levelsText.text = sb.ToString();
         
-        
+        // 清除之前的点击事件，避免重复添加
+        item.onClick.Clear();
         item.onClick.Add(() =>
         {
             openCtrl.selectedIndex = 1;
@@ -105,19 +99,17 @@ public class BondShowWin : GComponent, IUIComponent
             {
                 break;
             }
-
             sb.Append("/");
         }
 
-        GTextField nameText = item.asCom.GetChild("Txt_name") as GTextField;
-        GTextField countText = item.asCom.GetChild("Txt_count") as GTextField;
-        GTextField levelsText = item.asCom.GetChild("Txt_levels") as GTextField;
-
-
-        nameText.text = bondData.Name;
-        countText.text = currentCount.ToString();
-        levelsText.text = sb.ToString();
+        BondItem bondItem = item as BondItem;
+        bondItem.nameText.text = bondData.Name;
+        bondItem.countText.text = currentCount.ToString();
+        bondItem.levelsText.text = sb.ToString();
         
+        
+        // 清除之前的点击事件，避免重复添加
+        item.onClick.Clear();
         item.onClick.Add(() =>
         {
             openCtrl.selectedIndex = 1;
